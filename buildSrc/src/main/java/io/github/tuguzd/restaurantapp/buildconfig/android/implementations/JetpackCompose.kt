@@ -6,9 +6,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 fun DependencyHandler.composeCoreImplementation() {
     implementation(JetpackCompose.Core.ui)
     implementation(JetpackCompose.Core.activity)
-}
 
-fun DependencyHandler.composeIdeImplementation() {
+    // Android Studio integrations with Jetpack Compose
     implementation(JetpackCompose.AndroidStudio.preview)
     debugImplementation(JetpackCompose.AndroidStudio.tooling)
 }

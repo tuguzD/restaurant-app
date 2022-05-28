@@ -2,9 +2,6 @@ import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidBa
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Hilt.hiltImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose.composeVersion
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.KotlinX
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.QualityAssurance.Log.loggingImplementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.QualityAssurance.UnitTest.unitTestingImplementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.QualityAssurance.instrumentTestingImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.*
 
 plugins {
@@ -71,9 +68,6 @@ dependencies {
     composeCoreImplementation()
     materialDesignImplementation()
     navigationImplementation()
-
-    // Android Studio integrations with Jetpack Compose
-    composeIdeImplementation()
 
     // Additional features for Jetpack Compose
     composeThirdPartyImplementation()
