@@ -17,6 +17,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:networkSecurityConfig="@xml/test_network_security_config"
         tools:targetApi="32">
 
         <activity
