@@ -1,4 +1,5 @@
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidBase.androidBaseImplementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.DomainLayer
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Hilt.hiltImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose.composeVersion
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.KotlinX
@@ -81,9 +82,9 @@ dependencies {
     hiltImplementation()
 
     // Domain layer
-    // implementation(DomainLayer.dependency) {
-    //     isChanging = true
-    // }
+    implementation(DomainLayer.dependency) {
+        isChanging = true
+    }
 
     // Quality Assurance
     androidTestImplementation(KotlinX.Test.coroutine) {
