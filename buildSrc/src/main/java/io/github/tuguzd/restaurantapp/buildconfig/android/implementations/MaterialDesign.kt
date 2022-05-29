@@ -17,6 +17,7 @@ fun DependencyHandler.materialIconImplementation() {
 
 // Provide features to build complete Material app
 fun DependencyHandler.materialDesignImplementation() {
+    implementation(JetpackCompose.Material.core)
     materialIconImplementation()
     materialThemeImplementation()
 }

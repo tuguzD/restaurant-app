@@ -10,6 +10,8 @@ object JetpackCompose {
     }
 
     object Material {
+        const val core = "com.google.android.material:material:1.6.0"
+
         object Icons {
             const val dependency =
                 "androidx.compose.material:material-icons-core:$composeVersion"
