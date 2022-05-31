@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.dependencies
+package io.github.tuguzd.restaurantapp.buildconfig.android.dependency
 
 object JetpackCompose {
     const val composeVersion = "1.2.0-beta02"

@@ -1,7 +1,7 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.dependencies
+package io.github.tuguzd.restaurantapp.buildconfig.android.dependency
 
-import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.implementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.kapt
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.implementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.kapt
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Hilt {

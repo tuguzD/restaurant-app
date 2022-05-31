@@ -1,9 +1,9 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.implementations
+package io.github.tuguzd.restaurantapp.buildconfig.android.implementation
 
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidX
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Kotlin
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.QualityAssurance
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.AndroidX
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.QualityAssurance
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 fun DependencyHandler.unitTestingImplementation() {

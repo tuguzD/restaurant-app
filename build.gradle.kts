@@ -7,7 +7,7 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath(io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Hilt.plugin)
+        classpath(io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Hilt.plugin)
     }
 }
 

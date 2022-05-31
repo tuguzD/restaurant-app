@@ -1,13 +1,13 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.dependencies
+package io.github.tuguzd.restaurantapp.buildconfig.android.dependency
 
-import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.implementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.implementation
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AndroidX {
     private const val core = "androidx.core:core-ktx:1.7.0"
     private const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
-    fun DependencyHandler.androidBaseImplementation() {
+    fun DependencyHandler.androidXImplementation() {
         implementation(core)
         implementation(lifecycle)
     }

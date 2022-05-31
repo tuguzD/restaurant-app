@@ -1,6 +1,6 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.implementations
+package io.github.tuguzd.restaurantapp.buildconfig.android.implementation
 
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 // Provide app theming with Material 3

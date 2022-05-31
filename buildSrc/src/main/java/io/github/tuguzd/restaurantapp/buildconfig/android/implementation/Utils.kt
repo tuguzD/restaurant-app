@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.buildconfig.android.implementations
+package io.github.tuguzd.restaurantapp.buildconfig.android.implementation
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
@@ -16,3 +16,9 @@ internal fun DependencyHandler.testImplementation(dependencyNotation: Any) =
 
 internal fun DependencyHandler.androidTestImplementation(dependencyNotation: Any) =
     add("androidTestImplementation", dependencyNotation)
+
+internal fun DependencyHandler.runtimeOnly(dependencyNotation: Any) =
+    add("runtimeOnly", dependencyNotation)
+
+internal fun DependencyHandler.testRuntimeOnly(dependencyNotation: Any) =
+    add("testRuntimeOnly", dependencyNotation)

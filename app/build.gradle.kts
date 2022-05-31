@@ -1,9 +1,9 @@
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidX.androidBaseImplementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.DomainLayer
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Hilt.hiltImplementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose.composeVersion
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Kotlin
-import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.*
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.AndroidX.androidXImplementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.DomainLayer
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Hilt.hiltImplementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose.composeVersion
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.*
 
 plugins {
     id("com.android.application")
@@ -63,7 +63,7 @@ configurations.all {
 
 dependencies {
     // Must-have Android dependencies
-    androidBaseImplementation()
+    androidXImplementation()
 
     // Jetpack Compose
     composeCoreImplementation()
