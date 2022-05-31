@@ -1,8 +1,8 @@
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidBase.androidBaseImplementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.AndroidX.androidBaseImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.DomainLayer
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Hilt.hiltImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.JetpackCompose.composeVersion
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.KotlinX
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependencies.Kotlin
 import io.github.tuguzd.restaurantapp.buildconfig.android.implementations.*
 
 plugins {
@@ -75,8 +75,8 @@ dependencies {
     accompanistFeatureImplementation()
 
     // Kotlin extensions
-    implementation(KotlinX.coroutine)
-    implementation(KotlinX.serializationJson)
+    implementation(Kotlin.X.coroutine)
+    implementation(Kotlin.X.serializationJson)
 
     // Dependency injection
     hiltImplementation()
@@ -87,8 +87,8 @@ dependencies {
     }
 
     // Quality Assurance
-    androidTestImplementation(KotlinX.Test.coroutine) {
-        exclude(group = KotlinX.group, module = KotlinX.Test.excludedModule)
+    androidTestImplementation(Kotlin.X.Test.coroutine) {
+        exclude(group = Kotlin.X.group, module = Kotlin.X.Test.excludedModule)
     }
     loggingImplementation()
     unitTestingImplementation()
