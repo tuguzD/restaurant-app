@@ -1,3 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">RestaurantApp</string>
+    <string name="orders">Orders</string>
+    <string name="delivery">Delivery</string>
+    <string name="account">Account</string>
+
+    <string name="search_something">Search for something</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="dismiss">Dismiss</string>
+
+    <string name="user_avatar">User avatar</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+
+    <string name="avatar_not_loaded">Avatar not loaded</string>
+    <string name="signed_out_success">Signed out successfully</string>
+    <string name="sign_in_google">Continue with Google</string>
+    <string name="no_account">No account?</string>
+    <string name="have_account">Already have account?</string>
+    <string name="coming_soon">Coming soon…</string>
+
+    <string name="server_error">Error on the server side: try later</string>
+    <string name="network_error">Can\'t connect to the server: check Internet connection</string>
+    <string name="unknown_error">Unexpected application error</string>
+    <string name="google_auth_error">Google authorization failed</string>
+
 </resources>

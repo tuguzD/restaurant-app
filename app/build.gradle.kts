@@ -2,7 +2,7 @@ import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.AndroidX.an
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.DomainLayer
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Google.googleImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Hilt.hiltImplementation
-import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose.composeVersion
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
 import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.*
 
@@ -31,7 +31,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = JetpackCompose.version
     }
 
     buildTypes {
@@ -77,10 +77,15 @@ dependencies {
 
     // Kotlin extensions
     implementation(Kotlin.X.coroutine)
+    implementation(Kotlin.X.playServices)
     implementation(Kotlin.X.serializationJson)
 
     // Dependency injection
     hiltImplementation()
+
+    // TODO: Remove while moving to clean architecture
+    roomImplementation()
+    retrofitImplementation()
 
     // Google
     googleImplementation()

@@ -1,10 +1,10 @@
 package io.github.tuguzd.restaurantapp.buildconfig.android.dependency
 
 object JetpackCompose {
-    const val composeVersion = "1.2.0-beta02"
+    const val version = "1.2.0-beta02"
 
     object Core {
-        const val ui = "androidx.compose.ui:ui:$composeVersion"
+        const val ui = "androidx.compose.ui:ui:$version"
         const val activity = "androidx.activity:activity-compose:1.4.0"
         const val navigation = "androidx.navigation:navigation-compose:2.4.2"
     }
@@ -14,40 +14,40 @@ object JetpackCompose {
 
         object Icons {
             const val dependency =
-                "androidx.compose.material:material-icons-core:$composeVersion"
+                "androidx.compose.material:material-icons-core:$version"
             const val extention =
-                "androidx.compose.material:material-icons-extended:$composeVersion"
+                "androidx.compose.material:material-icons-extended:$version"
         }
 
         object You {
-            private const val material3Version = "1.0.0-alpha12"
+            private const val version = "1.0.0-alpha12"
 
-            const val dependency = "androidx.compose.material3:material3:$material3Version"
+            const val dependency = "androidx.compose.material3:material3:$version"
             const val resizableLayout =
-                "androidx.compose.material3:material3-window-size-class:$material3Version"
+                "androidx.compose.material3:material3-window-size-class:$version"
         }
     }
 
     object Accompanist {
-        const val accompanistVersion = "0.24.9-beta"
+        const val version = "0.24.9-beta"
 
         object Navigation {
             const val material =
-                "com.google.accompanist:accompanist-navigation-material:$accompanistVersion"
+                "com.google.accompanist:accompanist-navigation-material:$version"
             const val animation =
-                "com.google.accompanist:accompanist-navigation-animation:$accompanistVersion"
+                "com.google.accompanist:accompanist-navigation-animation:$version"
         }
 
-        const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+        const val pager = "com.google.accompanist:accompanist-pager:$version"
         const val placeholder =
-            "com.google.accompanist:accompanist-placeholder-material:$accompanistVersion"
+            "com.google.accompanist:accompanist-placeholder-material:$version"
         const val refreshSwipe =
-            "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
+            "com.google.accompanist:accompanist-swiperefresh:$version"
     }
 
     object AndroidStudio {
-        const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
-        const val preview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+        const val tooling = "androidx.compose.ui:ui-tooling:$version"
+        const val preview = "androidx.compose.ui:ui-tooling-preview:$version"
     }
 
     object ThirdParty {
@@ -62,7 +62,7 @@ object JetpackCompose {
     }
 
     object InstrumentTest {
-        const val jUnit4 = "androidx.compose.ui:ui-test-junit4:$composeVersion"
-        const val layout = "androidx.compose.ui:ui-test-manifest:$composeVersion"
+        const val jUnit4 = "androidx.compose.ui:ui-test-junit4:$version"
+        const val layout = "androidx.compose.ui:ui-test-manifest:$version"
     }
 }

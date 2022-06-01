@@ -1,9 +1,14 @@
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.DomainLayer
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.retrofitImplementation
+import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.roomImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.unitTestingImplementation
 
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin("plugin.serialization")
+    kotlin("kapt")
 }
 
 android {
@@ -40,6 +45,15 @@ configurations.all {
 }
 
 dependencies {
+    // Kotlin extensions
+    implementation(Kotlin.X.serializationJson)
+
+    // Persistence
+    roomImplementation()
+
+    // Retrofit
+    retrofitImplementation()
+
     // Domain layer
     implementation(DomainLayer.dependency) { isChanging = true }
 
