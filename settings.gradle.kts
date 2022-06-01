@@ -18,4 +18,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "RestaurantApp"
+
 include(":app")
+include(":data")

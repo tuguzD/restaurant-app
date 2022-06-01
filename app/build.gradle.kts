@@ -1,5 +1,6 @@
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.AndroidX.androidXImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.DomainLayer
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Google.googleImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Hilt.hiltImplementation
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.JetpackCompose.composeVersion
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
@@ -18,7 +19,7 @@ android {
     namespace = "io.github.tuguzd.restaurantapp"
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         targetSdk = 32
         versionCode = 1
         versionName = "1.0"
@@ -81,10 +82,13 @@ dependencies {
     // Dependency injection
     hiltImplementation()
 
+    // Google
+    googleImplementation()
+
     // Domain layer
-    implementation(DomainLayer.dependency) {
-        isChanging = true
-    }
+    implementation(DomainLayer.dependency) { isChanging = true }
+    // Data layer
+    implementation(project(":data"))
 
     // Quality Assurance
     androidTestImplementation(Kotlin.X.Test.coroutine) {
