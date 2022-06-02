@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.util
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.root
 
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.Destination
 

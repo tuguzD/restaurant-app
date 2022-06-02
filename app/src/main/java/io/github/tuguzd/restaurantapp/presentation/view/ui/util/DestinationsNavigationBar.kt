@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main
+package io.github.tuguzd.restaurantapp.presentation.view.ui.util
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration

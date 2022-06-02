@@ -22,9 +22,9 @@ import io.github.tuguzd.restaurantapp.R
 import io.github.tuguzd.restaurantapp.data.datasource.api.BackendResponse
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentials
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.signin.SignInScreen
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.signup.SignUpScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.util.RootNavigationDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel

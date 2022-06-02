@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.util.RootNavigationDestinations.Splash
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.Splash
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateAuth
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
@@ -28,7 +28,7 @@ fun SplashScreen(
                 null -> navController.navigateAuth(Splash)
                 else -> navController.navigateMain(Splash)
             }
-            // todo normal error handling
+            // TODO: add normal error handling
             else -> navController.navigateAuth(Splash)
         }
     }

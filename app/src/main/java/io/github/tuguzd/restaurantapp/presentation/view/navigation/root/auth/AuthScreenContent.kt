@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +15,7 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.CredentialsAuthButton
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.GoogleAuthButton
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.PasswordTextField

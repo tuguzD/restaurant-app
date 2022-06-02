@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object BackendModule {
-    private const val backendBaseUrl = "http://192.168.0.111:8080/"
+    private const val backendBaseUrl = "http://192.168.0.110:8080/"
 
     @Provides
     @Singleton
@@ -61,7 +61,8 @@ object BackendModule {
 
     @Provides
     @Singleton
-    fun providesBackendAuthAPI(@AuthRetrofit retrofit: Retrofit): BackendAuthAPI = retrofit.create()
+    fun providesBackendAuthAPI(@AuthRetrofit retrofit: Retrofit): BackendAuthAPI =
+        retrofit.create()
 
     @Provides
     @Singleton

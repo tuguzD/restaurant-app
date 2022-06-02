@@ -26,6 +26,7 @@ import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.acc
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.delivery.DeliveryScreen
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order.OrdersScreen
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import io.github.tuguzd.restaurantapp.presentation.view.ui.util.DestinationsNavigationBar
 import io.github.tuguzd.restaurantapp.presentation.view.util.ToastDuration
 import io.github.tuguzd.restaurantapp.presentation.view.util.collectAsStateLifecycleAware
 import io.github.tuguzd.restaurantapp.presentation.view.util.showToast

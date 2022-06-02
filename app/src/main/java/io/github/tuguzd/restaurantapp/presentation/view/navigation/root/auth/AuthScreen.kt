@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

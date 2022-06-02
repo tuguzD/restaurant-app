@@ -8,8 +8,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.tuguzd.restaurantapp.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthScreenContent
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.AuthScreen
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.AuthScreenContent
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
