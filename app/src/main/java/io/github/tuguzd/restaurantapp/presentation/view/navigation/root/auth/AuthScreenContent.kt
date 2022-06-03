@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.CredentialsAuthButton
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.GoogleAuthButton

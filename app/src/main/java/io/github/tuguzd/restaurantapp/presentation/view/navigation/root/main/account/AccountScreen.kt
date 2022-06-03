@@ -18,11 +18,11 @@ import coil.compose.SubcomposeAsyncImage
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.material.placeholder
-import io.github.tuguzd.restaurantapp.R
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.User
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.UserData
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.UserType
 import io.github.tuguzd.restaurantapp.domain.util.randomNanoId
+import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 
 /**

@@ -13,6 +13,7 @@ plugins {
 
 android {
     compileSdk = 32
+    namespace = "io.github.tuguzd.restaurantapp.domain"
 
     defaultConfig {
         minSdk = 21
@@ -27,7 +28,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

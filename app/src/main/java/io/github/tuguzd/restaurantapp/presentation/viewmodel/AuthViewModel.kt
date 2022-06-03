@@ -12,9 +12,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.tuguzd.restaurantapp.data.datasource.api.BackendAuthAPI
-import io.github.tuguzd.restaurantapp.data.datasource.api.BackendCompletableResponse
-import io.github.tuguzd.restaurantapp.data.datasource.api.makeUnknownError
+import io.github.tuguzd.restaurantapp.data.datasource.api.util.AuthApi
+import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendCompletableResponse
+import io.github.tuguzd.restaurantapp.data.datasource.api.util.makeUnknownError
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.token.UserTokenData
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val backendAuthAPI: BackendAuthAPI,
+    private val authAPI: AuthApi,
     private val sharedPreferences: EncryptedSharedPreferences,
     private val googleSignInClient: GoogleSignInClient,
 ) : ViewModel() {
@@ -38,7 +38,7 @@ class AuthViewModel @Inject constructor(
     @CheckResult
     suspend fun auth(credentials: UserCredentialsData): BackendCompletableResponse {
         val userToken = withContext(Dispatchers.IO) {
-            backendAuthAPI.auth(credentials)
+            authAPI.auth(credentials)
         }
         return when (userToken) {
             is NetworkResponse.Success -> {
@@ -59,7 +59,7 @@ class AuthViewModel @Inject constructor(
     @CheckResult
     suspend fun register(user: UserCredentialsData): BackendCompletableResponse {
         val userToken = withContext(Dispatchers.IO) {
-            backendAuthAPI.register(user)
+            authAPI.register(user)
         }
         return when (userToken) {
             is NetworkResponse.Success -> {
@@ -88,7 +88,7 @@ class AuthViewModel @Inject constructor(
         val authCode = UserTokenData(authCodeString)
 
         val userToken = withContext(Dispatchers.IO) {
-            backendAuthAPI.googleOAuth2(authCode)
+            authAPI.googleOAuth2(authCode)
         }
         return when (userToken) {
             is NetworkResponse.Success -> {

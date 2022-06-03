@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.R
 
 /**
  * Material Design [outlined text field][OutlinedTextField] with the ability

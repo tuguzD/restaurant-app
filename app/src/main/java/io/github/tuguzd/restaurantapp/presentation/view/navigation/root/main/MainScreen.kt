@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.MainScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.account.AccountScreen
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.delivery.DeliveryScreen

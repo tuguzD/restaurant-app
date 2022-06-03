@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.data.datasource.api
+package io.github.tuguzd.restaurantapp.data.datasource.api.util
 
 import com.haroldadmin.cnradapter.CompletableResponse
 import com.haroldadmin.cnradapter.NetworkResponse

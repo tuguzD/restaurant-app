@@ -22,7 +22,6 @@ object AppModule {
     @Singleton
     fun provideJson(): Json = Json
 
-    // TODO: WTF is this??
     private const val serverClientId =
         "721437970114-c1pn1c5bpge8iru30l1td5km894pj5db.apps.googleusercontent.com"
 

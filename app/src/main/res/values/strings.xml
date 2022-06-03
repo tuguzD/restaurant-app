@@ -11,6 +11,17 @@
     <string name="password">Password</string>
     <string name="dismiss">Dismiss</string>
 
+    <string name="serviceItemPoint">Name of food service\'s point</string>
+    <string name="purchased">Was purchased</string>
+    <string name="description">Description</string>
+    <string name="client_count">Client count</string>
+    <string name="order_time">Ordered at</string>
+
+    <string name="add_order">New order</string>
+    <string name="order_picture">Order picture</string>
+    <string name="order_detail">Order details</string>
+    <string name="order_created">New order created successfully</string>
+
     <string name="user_avatar">User avatar</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>

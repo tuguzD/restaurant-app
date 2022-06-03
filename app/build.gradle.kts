@@ -16,7 +16,7 @@ plugins {
 
 android {
     compileSdk = 32
-    namespace = "io.github.tuguzd.restaurantapp"
+    namespace = "io.github.tuguzd.restaurantapp.presentation"
 
     defaultConfig {
         minSdk = 23

@@ -7,7 +7,7 @@ import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.BottomNavigationDestination
 
 /**
@@ -20,7 +20,7 @@ sealed class MainScreenDestinations(
 
     object Orders : MainScreenDestinations(
         route = "orders",
-        icon = Icons.Rounded.Timer,
+        icon = Icons.Rounded.BrunchDining,
     ) {
         override val description: String
             @Composable get() = stringResource(R.string.orders)
@@ -28,7 +28,7 @@ sealed class MainScreenDestinations(
 
     object Delivery : MainScreenDestinations(
         route = "delivery",
-        icon = Icons.Rounded.BrunchDining,
+        icon = Icons.Rounded.Timer,
     ) {
         override val description: String
             @Composable get() = stringResource(R.string.delivery)

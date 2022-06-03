@@ -7,9 +7,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.tuguzd.restaurantapp.data.datasource.api.BackendCompletableResponse
-import io.github.tuguzd.restaurantapp.data.datasource.api.BackendUsersAPI
-import io.github.tuguzd.restaurantapp.data.datasource.api.makeUnknownError
+import io.github.tuguzd.restaurantapp.data.datasource.api.role_access_control.UserApi
+import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendCompletableResponse
+import io.github.tuguzd.restaurantapp.data.datasource.api.util.makeUnknownError
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val backendUsersAPI: BackendUsersAPI,
+    private val userAPI: UserApi,
     private val sharedPreferences: EncryptedSharedPreferences,
     private val googleSignInClient: GoogleSignInClient,
 ) : ViewModel() {
@@ -37,7 +37,7 @@ class AccountViewModel @Inject constructor(
             ?: return makeUnknownError("No information about any user")
 
         val result = withContext(Dispatchers.IO) {
-            backendUsersAPI.current()
+            userAPI.current()
         }
         return when (result) {
             is NetworkResponse.Success -> {

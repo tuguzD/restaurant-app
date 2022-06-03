@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.tuguzd.restaurantapp.R
+import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 
 @Composable
@@ -37,7 +37,7 @@ fun DeliveryScreen(onTitleChanged: (String) -> Unit) {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LearnScreenPreview() {
+private fun DeliveryScreenPreview() {
     RestaurantAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             DeliveryScreen(onTitleChanged = {})
