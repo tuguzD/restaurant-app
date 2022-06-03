@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable

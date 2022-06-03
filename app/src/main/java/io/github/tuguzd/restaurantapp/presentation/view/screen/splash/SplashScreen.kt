@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.splash
+package io.github.tuguzd.restaurantapp.presentation.view.screen.splash
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.Splash
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.Splash
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateAuth
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel

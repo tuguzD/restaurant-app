@@ -1,6 +1,7 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root
+package io.github.tuguzd.restaurantapp.presentation.view.navigation
 
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.Destination
+import io.github.tuguzd.restaurantapp.presentation.view.screen.RootScreen
 
 /**
  * Navigation destinations of the application's [root screen][RootScreen].

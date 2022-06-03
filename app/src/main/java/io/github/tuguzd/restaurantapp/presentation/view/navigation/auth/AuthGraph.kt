@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.auth
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -22,10 +22,10 @@ import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendResponse
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentials
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.*
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.signin.SignInScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.signup.SignUpScreen
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
+import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.signin.SignInScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.signup.SignUpScreen
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -70,76 +70,80 @@ fun NavGraphBuilder.authGraph(
             }
         }
 
-    composable(Auth.SignIn.route) {
+    @Composable
+    fun something(
+        action: (UserCredentialsData, CoroutineScope, Context, SnackbarHostState) -> Unit,
+        screen: @Composable (
+            (AuthVariant) -> Unit,
+            SnackbarHostState,
+        ) -> Unit,
+    ) {
         val snackbarHostState = remember { SnackbarHostState() }
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
 
         val launcher = rememberGoogleAuthLauncher(context, coroutineScope, snackbarHostState)
 
-        val onSignIn: (AuthVariant) -> Unit = { variant ->
+        val onSign: (AuthVariant) -> Unit = { variant ->
             when (variant) {
-                is AuthVariant.Credentials -> {
-                    val credentials = variant.credentials.toData()
-                    coroutineScope.launch {
-                        authViewModel.auth(credentials).handle(context, snackbarHostState) {
-                            accountViewModel.updateUser().handle(context, snackbarHostState) {
-                                navController.navigateMain()
-                            }
-                        }
-                    }
-                }
-                AuthVariant.Google -> {
+                is AuthVariant.Credentials ->
+                    action(variant.credentials.toData(), coroutineScope, context, snackbarHostState)
+
+                is AuthVariant.Google -> {
                     val intent = authViewModel.googleSignInIntent
                     launcher.launch(intent)
                 }
             }
         }
+        screen(onSign, snackbarHostState)
+    }
 
-        SignInScreen(
-            onSignIn = onSignIn,
-            viewModel = authViewModel,
-            onSignUpNavigate = {
-                navController.navigate(Auth.SignUp.route) {
-                    popUpTo(Auth.route) { inclusive = true }
+    composable(Auth.SignIn.route) {
+        something(
+            action = { credentials, coroutineScope, context, snackbarHostState ->
+                coroutineScope.launch {
+                    authViewModel.auth(credentials).handle(context, snackbarHostState) {
+                        accountViewModel.updateUser().handle(context, snackbarHostState) {
+                            navController.navigateMain()
+                        }
+                    }
                 }
             },
-            snackbarHostState = snackbarHostState,
+            screen = { onSignIn, snackbarHostState ->
+                SignInScreen(
+                    onSignIn = onSignIn,
+                    viewModel = authViewModel,
+                    onSignUpNavigate = {
+                        navController.navigate(Auth.SignUp.route) {
+                            popUpTo(Auth.route) { inclusive = true }
+                        }
+                    },
+                    snackbarHostState = snackbarHostState,
+                )
+            },
         )
     }
     composable(Auth.SignUp.route) {
-        val snackbarHostState = remember { SnackbarHostState() }
-        val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
-
-        val launcher = rememberGoogleAuthLauncher(context, coroutineScope, snackbarHostState)
-
-        val onSignUp: (AuthVariant) -> Unit = { variant ->
-            when (variant) {
-                is AuthVariant.Credentials -> {
-                    val credentials = variant.credentials.toData()
-                    coroutineScope.launch {
-                        authViewModel.register(credentials).handle(context, snackbarHostState) {
-                            accountViewModel.updateUser().handle(context, snackbarHostState) {
-                                navController.navigateMain()
-                            }
+        something(
+            action = { credentials, coroutineScope, context, snackbarHostState ->
+                coroutineScope.launch {
+                    authViewModel.register(credentials).handle(context, snackbarHostState) {
+                        accountViewModel.updateUser().handle(context, snackbarHostState) {
+                            navController.navigateMain()
                         }
                     }
                 }
-                AuthVariant.Google -> {
-                    val intent = authViewModel.googleSignInIntent
-                    launcher.launch(intent)
-                }
-            }
-        }
-
-        SignUpScreen(
-            onSignUp = onSignUp,
-            viewModel = authViewModel,
-            onSignInNavigate = {
-                navController.navigate(Auth.SignIn.route) {
-                    popUpTo(Auth.route) { inclusive = true }
-                }
+            },
+            screen = { onSignUp, _ ->
+                SignUpScreen(
+                    onSignUp = onSignUp,
+                    viewModel = authViewModel,
+                    onSignInNavigate = {
+                        navController.navigate(Auth.SignIn.route) {
+                            popUpTo(Auth.route) { inclusive = true }
+                        }
+                    },
+                )
             },
         )
     }

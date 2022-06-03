@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.domain.util.checkPassword
 import io.github.tuguzd.restaurantapp.domain.util.checkUsername
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVariant
 
 /**
  * Material Design contained button which is enabled

@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.main
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.BottomNavigationDestination
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.MainScreen
 
 /**
  * Bottom navigation destinations of the application's [main screen][MainScreen].

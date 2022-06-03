@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.signin
+package io.github.tuguzd.restaurantapp.presentation.view.screen.auth.signin
 
 import android.content.res.Configuration
 import androidx.compose.material3.SnackbarHostState
@@ -8,9 +8,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.AuthScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.AuthScreenContent
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVariant
+import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.AuthScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.AuthScreenContent
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
 

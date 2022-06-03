@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,7 +19,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order.OrderScreenDestinations.*
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.order.OrderScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.util.collectAsStateLifecycleAware
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.OrderViewModel
 import kotlinx.coroutines.CoroutineScope

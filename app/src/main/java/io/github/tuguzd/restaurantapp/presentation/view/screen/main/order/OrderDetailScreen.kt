@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -34,60 +34,62 @@ import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTh
 fun OrderDetailScreen(
     order: Order,
     painter: Painter? = null
-) = Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState()),
 ) {
-    val imageShape = MaterialTheme.shapes.medium.copy(
-        topStart = ZeroCornerSize,
-        topEnd = ZeroCornerSize,
-    )
-
-    Surface(tonalElevation = 5.dp, shape = imageShape) {
-        Image(
-            modifier = Modifier
-                .heightIn(min = 240.dp)
-                .fillMaxWidth(),
-            painter = painter ?: ColorPainter(Color.Transparent),
-            contentDescription = stringResource(R.string.order_picture),
-        )
-    }
-
     Column(
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
-        OrderProperty(
-            name = stringResource(R.string.serviceItemPoint),
-            value = order.serviceItemPoint?.name.toString(),
+        val imageShape = MaterialTheme.shapes.medium.copy(
+            topStart = ZeroCornerSize,
+            topEnd = ZeroCornerSize,
         )
-        Divider()
 
-        OrderProperty(
-            name = stringResource(R.string.client_count),
-            value = order.clientCount.toString(),
-        )
-        Divider()
+        Surface(tonalElevation = 5.dp, shape = imageShape) {
+            Image(
+                modifier = Modifier
+                    .heightIn(min = 240.dp)
+                    .fillMaxWidth(),
+                painter = painter ?: ColorPainter(Color.Transparent),
+                contentDescription = stringResource(R.string.order_picture),
+            )
+        }
 
-        OrderProperty(
-            name = stringResource(R.string.description),
-            value = order.description.toString(),
-        )
-        Divider()
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
+        ) {
+            OrderProperty(
+                name = stringResource(R.string.serviceItemPoint),
+                value = order.serviceItemPoint?.name.toString(),
+            )
+            Divider()
 
-        OrderProperty(
-            name = stringResource(R.string.order_time),
-            value = order.datetimeCreate.toString(),
-        )
-        Divider()
+            OrderProperty(
+                name = stringResource(R.string.client_count),
+                value = order.clientCount.toString(),
+            )
+            Divider()
 
-        OrderProperty(
-            name = stringResource(R.string.purchased),
-            value = order.purchased.toString(),
-        )
-        Divider()
+            OrderProperty(
+                name = stringResource(R.string.description),
+                value = order.description.toString(),
+            )
+            Divider()
+
+            OrderProperty(
+                name = stringResource(R.string.order_time),
+                value = order.datetimeCreate.toString(),
+            )
+            Divider()
+
+            OrderProperty(
+                name = stringResource(R.string.purchased),
+                value = order.purchased.toString(),
+            )
+            Divider()
+        }
     }
 }
 
@@ -97,13 +99,11 @@ fun OrderDetailScreen(
 @Composable
 fun OrderProperty(name: String, value: String) {
     Spacer(modifier = Modifier.height(8.dp))
-
     Text(
         text = name,
         style = MaterialTheme.typography.labelMedium,
     )
     Spacer(modifier = Modifier.height(8.dp))
-
     Text(
         text = value,
         style = MaterialTheme.typography.bodyLarge,

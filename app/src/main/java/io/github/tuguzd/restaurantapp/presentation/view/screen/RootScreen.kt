@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root
+package io.github.tuguzd.restaurantapp.presentation.view.screen
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,11 +12,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.*
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.authGraph
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.MainScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.splash.SplashScreen
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.*
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.authGraph
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateAuth
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.MainScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.splash.SplashScreen
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch

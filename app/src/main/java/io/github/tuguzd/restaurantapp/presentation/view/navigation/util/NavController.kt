@@ -1,9 +1,9 @@
 package io.github.tuguzd.restaurantapp.presentation.view.navigation.util
 
 import androidx.navigation.NavController
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.Auth
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootNavigationDestinations.Main
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.MainScreen
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.Auth
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.Main
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.MainScreen
 
 /**
  * Navigate to the *Authentication* user flow.

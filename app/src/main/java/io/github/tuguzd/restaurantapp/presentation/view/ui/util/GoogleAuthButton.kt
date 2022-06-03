@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util.AuthVariant
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVariant
 
 /**
  * Google authentication light button.

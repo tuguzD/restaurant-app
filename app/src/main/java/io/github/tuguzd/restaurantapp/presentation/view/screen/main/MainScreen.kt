@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
@@ -21,10 +21,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.MainScreenDestinations.*
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.account.AccountScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.delivery.DeliveryScreen
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order.OrdersScreen
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations.*
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.account.AccountScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.delivery.DeliveryScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrdersScreen
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.DestinationsNavigationBar
 import io.github.tuguzd.restaurantapp.presentation.view.util.ToastDuration

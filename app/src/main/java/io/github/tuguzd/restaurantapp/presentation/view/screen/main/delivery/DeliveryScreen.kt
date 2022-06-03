@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.delivery
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main.delivery
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box

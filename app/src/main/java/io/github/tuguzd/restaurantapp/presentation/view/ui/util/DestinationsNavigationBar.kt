@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.MainScreenDestinations.*
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.BottomNavigationDestination
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 

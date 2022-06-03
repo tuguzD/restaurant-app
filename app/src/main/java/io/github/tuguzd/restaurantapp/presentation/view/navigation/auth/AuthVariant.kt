@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.auth.util
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.auth
 
 import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentials
 

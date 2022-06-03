@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order
+package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +29,8 @@ fun OrderList(
     state: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
-        modifier = modifier,
         state = state,
+        modifier = modifier,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {

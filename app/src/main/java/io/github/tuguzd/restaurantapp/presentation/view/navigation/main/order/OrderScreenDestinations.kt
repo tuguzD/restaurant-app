@@ -1,9 +1,10 @@
-package io.github.tuguzd.restaurantapp.presentation.view.navigation.root.main.order
+package io.github.tuguzd.restaurantapp.presentation.view.navigation.main.order
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.DescribableDestination
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrdersScreen
 
 /**
  * Describable navigation destinations

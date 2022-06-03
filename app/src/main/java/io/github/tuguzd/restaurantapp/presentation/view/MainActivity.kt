@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.root.RootScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.RootScreen
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 
 /**
