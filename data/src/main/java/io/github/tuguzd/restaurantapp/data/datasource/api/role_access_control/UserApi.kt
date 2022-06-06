@@ -1,7 +1,7 @@
 package io.github.tuguzd.restaurantapp.data.datasource.api.role_access_control
 
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendResponse
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.UserData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserData
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.tuguzd.restaurantapp.domain.model.client_work.order.OrderData
-import io.github.tuguzd.restaurantapp.domain.util.randomNanoId
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
 
@@ -91,14 +90,15 @@ fun OrderCreateDialog(
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = {
-                    val order = OrderData(
-                        id = randomNanoId(),
-                        user = null,
-                        serviceItemPoint = null,
-                        description = description,
-                        clientCount = clientCount.toInt(),
-                    )
-                    onOrderCreate(order)
+//                    val order = OrderData(
+//                        id = randomNanoId(),
+//                        user = null,
+//                        serviceItemPoint = null,
+//                        description = description,
+//                        clientCount = clientCount.toInt(),
+//                        datetimeCreate = Date().toString(),
+//                    )
+//                    onOrderCreate(order)
                 },
                 enabled = kotlin.run {
                     clientCount.toIntOrNull() ?: return@run false

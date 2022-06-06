@@ -51,9 +51,7 @@ object AppModule {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         val fileName = "user-credentials"
         val encryptedSharedPreferences = EncryptedSharedPreferences.create(
-            fileName,
-            masterKeyAlias,
-            context,
+            fileName, masterKeyAlias, context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
         )

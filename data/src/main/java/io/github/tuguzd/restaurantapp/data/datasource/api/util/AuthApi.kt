@@ -1,7 +1,7 @@
 package io.github.tuguzd.restaurantapp.data.datasource.api.util
 
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.token.UserTokenData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentialsData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.token.UserTokenData
 import retrofit2.http.Body
 import retrofit2.http.POST
 

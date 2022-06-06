@@ -15,8 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.AuthApi
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendCompletableResponse
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.makeUnknownError
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.token.UserTokenData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentialsData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.token.UserTokenData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class AuthViewModel @Inject constructor(
             is NetworkResponse.Success -> {
                 withContext(Dispatchers.IO) {
                     sharedPreferences.edit {
-                        putString("access_token", userToken.body.accessToken)
+                        putString("access_token", userToken.body.token)
                     }
                 }
                 NetworkResponse.Success(Unit, userToken.response)
@@ -65,7 +65,7 @@ class AuthViewModel @Inject constructor(
             is NetworkResponse.Success -> {
                 withContext(Dispatchers.IO) {
                     sharedPreferences.edit {
-                        putString("access_token", userToken.body.accessToken)
+                        putString("access_token", userToken.body.token)
                     }
                 }
                 NetworkResponse.Success(Unit, userToken.response)
@@ -94,7 +94,7 @@ class AuthViewModel @Inject constructor(
             is NetworkResponse.Success -> {
                 withContext(Dispatchers.IO) {
                     sharedPreferences.edit {
-                        putString("access_token", userToken.body.accessToken)
+                        putString("access_token", userToken.body.token)
                     }
                 }
                 NetworkResponse.Success(Unit, userToken.response)

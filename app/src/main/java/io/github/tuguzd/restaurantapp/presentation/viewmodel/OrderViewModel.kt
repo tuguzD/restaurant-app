@@ -14,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class OrderViewModel @Inject constructor(
     private val orderApi: OrderApi,
-//    private val orderRepository: RepositoryService<String, OrderData>,
 ) : ViewModel() {
 
     val orders: Flow<List<OrderData>> get() = flow { orderApi.readAll() }

@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.tuguzd.restaurantapp.data.datasource.api.role_access_control.UserApi
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendCompletableResponse
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.makeUnknownError
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.User
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,7 +43,7 @@ class AccountViewModel @Inject constructor(
             is NetworkResponse.Success -> {
                 val user = result.body
                 sharedPreferences.edit {
-                    putString(User::id.name, user.id)
+                    putString(User::id.name, "${user.id}")
                     putString(User::imageUri.name, user.imageUri)
                     putString(User::email.name, user.email)
                     putString(User::type.name, user.type.toString())

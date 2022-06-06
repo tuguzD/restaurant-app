@@ -19,8 +19,8 @@ import androidx.navigation.compose.navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendResponse
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentials
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentialsData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentials
+import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
@@ -70,80 +70,76 @@ fun NavGraphBuilder.authGraph(
             }
         }
 
-    @Composable
-    fun something(
-        action: (UserCredentialsData, CoroutineScope, Context, SnackbarHostState) -> Unit,
-        screen: @Composable (
-            (AuthVariant) -> Unit,
-            SnackbarHostState,
-        ) -> Unit,
-    ) {
+    composable(Auth.SignIn.route) {
         val snackbarHostState = remember { SnackbarHostState() }
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
 
         val launcher = rememberGoogleAuthLauncher(context, coroutineScope, snackbarHostState)
 
-        val onSign: (AuthVariant) -> Unit = { variant ->
+        val onSignIn: (AuthVariant) -> Unit = { variant ->
             when (variant) {
-                is AuthVariant.Credentials ->
-                    action(variant.credentials.toData(), coroutineScope, context, snackbarHostState)
-
-                is AuthVariant.Google -> {
+                is AuthVariant.Credentials -> {
+                    val credentials = variant.credentials.toData()
+                    coroutineScope.launch {
+                        authViewModel.auth(credentials).handle(context, snackbarHostState) {
+                            accountViewModel.updateUser().handle(context, snackbarHostState) {
+                                navController.navigateMain()
+                            }
+                        }
+                    }
+                }
+                AuthVariant.Google -> {
                     val intent = authViewModel.googleSignInIntent
                     launcher.launch(intent)
                 }
             }
         }
-        screen(onSign, snackbarHostState)
-    }
 
-    composable(Auth.SignIn.route) {
-        something(
-            action = { credentials, coroutineScope, context, snackbarHostState ->
-                coroutineScope.launch {
-                    authViewModel.auth(credentials).handle(context, snackbarHostState) {
-                        accountViewModel.updateUser().handle(context, snackbarHostState) {
-                            navController.navigateMain()
-                        }
-                    }
+        SignInScreen(
+            onSignIn = onSignIn,
+            viewModel = authViewModel,
+            onSignUpNavigate = {
+                navController.navigate(Auth.SignUp.route) {
+                    popUpTo(Auth.route) { inclusive = true }
                 }
             },
-            screen = { onSignIn, snackbarHostState ->
-                SignInScreen(
-                    onSignIn = onSignIn,
-                    viewModel = authViewModel,
-                    onSignUpNavigate = {
-                        navController.navigate(Auth.SignUp.route) {
-                            popUpTo(Auth.route) { inclusive = true }
-                        }
-                    },
-                    snackbarHostState = snackbarHostState,
-                )
-            },
+            snackbarHostState = snackbarHostState,
         )
     }
     composable(Auth.SignUp.route) {
-        something(
-            action = { credentials, coroutineScope, context, snackbarHostState ->
-                coroutineScope.launch {
-                    authViewModel.register(credentials).handle(context, snackbarHostState) {
-                        accountViewModel.updateUser().handle(context, snackbarHostState) {
-                            navController.navigateMain()
+        val snackbarHostState = remember { SnackbarHostState() }
+        val coroutineScope = rememberCoroutineScope()
+        val context = LocalContext.current
+
+        val launcher = rememberGoogleAuthLauncher(context, coroutineScope, snackbarHostState)
+
+        val onSignUp: (AuthVariant) -> Unit = { variant ->
+            when (variant) {
+                is AuthVariant.Credentials -> {
+                    val credentials = variant.credentials.toData()
+                    coroutineScope.launch {
+                        authViewModel.register(credentials).handle(context, snackbarHostState) {
+                            accountViewModel.updateUser().handle(context, snackbarHostState) {
+                                navController.navigateMain()
+                            }
                         }
                     }
                 }
-            },
-            screen = { onSignUp, _ ->
-                SignUpScreen(
-                    onSignUp = onSignUp,
-                    viewModel = authViewModel,
-                    onSignInNavigate = {
-                        navController.navigate(Auth.SignIn.route) {
-                            popUpTo(Auth.route) { inclusive = true }
-                        }
-                    },
-                )
+                AuthVariant.Google -> {
+                    val intent = authViewModel.googleSignInIntent
+                    launcher.launch(intent)
+                }
+            }
+        }
+
+        SignUpScreen(
+            onSignUp = onSignUp,
+            viewModel = authViewModel,
+            onSignInNavigate = {
+                navController.navigate(Auth.SignIn.route) {
+                    popUpTo(Auth.route) { inclusive = true }
+                }
             },
         )
     }

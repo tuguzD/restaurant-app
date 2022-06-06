@@ -18,12 +18,13 @@ import coil.compose.SubcomposeAsyncImage
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.material.placeholder
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.User
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.UserData
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.user.UserType
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.User
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserData
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserType
 import io.github.tuguzd.restaurantapp.domain.util.randomNanoId
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import java.util.*
 
 /**
  * Application screen which represents *Account* main application destination.
@@ -71,10 +72,10 @@ fun AccountScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(text = user.username, style = MaterialTheme.typography.headlineSmall)
-//        if (user.type != UserType.User) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "${user.type}", style = MaterialTheme.typography.titleSmall)
-//        }
+        if (user.type != UserType.Client) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "${user.type}", style = MaterialTheme.typography.titleSmall)
+        }
         val email = user.email
         if (email != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -106,6 +107,7 @@ private fun AccountScreenPreview() {
                 username = "tuguzD",
                 email = "0damir.1tugushev@gmail.com",
                 imageUri = "https://avatars.githubusercontent.com/u/56772528",
+                datetimeCreate = Date().toString()
             )
             AccountScreen(onTitleChanged = {}, user = user, onSignOut = {})
         }

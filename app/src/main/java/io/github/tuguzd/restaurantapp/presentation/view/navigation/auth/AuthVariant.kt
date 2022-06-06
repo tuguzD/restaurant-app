@@ -1,6 +1,6 @@
 package io.github.tuguzd.restaurantapp.presentation.view.navigation.auth
 
-import io.github.tuguzd.restaurantapp.domain.model.role_access_control.credential.UserCredentials
+import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentials
 
 /**
  * Represents possible authentication variants provided by the application.
