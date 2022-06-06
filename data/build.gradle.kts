@@ -1,3 +1,4 @@
+import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.AndroidX
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.DomainLayer
 import io.github.tuguzd.restaurantapp.buildconfig.android.dependency.Kotlin
 import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.retrofitImplementation
@@ -46,8 +47,12 @@ configurations.all {
 }
 
 dependencies {
+    implementation(AndroidX.security)
+    implementation(AndroidX.core)
+
     // Kotlin extensions
     implementation(Kotlin.X.serializationJson)
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
 
     // Persistence
     roomImplementation()

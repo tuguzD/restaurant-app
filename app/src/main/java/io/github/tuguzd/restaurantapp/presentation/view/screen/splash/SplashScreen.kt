@@ -12,7 +12,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigationDestinations.Splash
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateAuth
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
 
 /**
  * Splash screen of the application.

@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.github.tuguzd.restaurantapp.data.datasource.api.util.BackendResponse
+import io.github.tuguzd.restaurantapp.data.datasource.remote.util.BackendResponse
 import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentials
 import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.presentation.R
@@ -26,8 +26,8 @@ import io.github.tuguzd.restaurantapp.presentation.view.navigation.RootNavigatio
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateMain
 import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.signin.SignInScreen
 import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.signup.SignUpScreen
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.auth.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

@@ -17,8 +17,8 @@ import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.authGrap
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.navigateAuth
 import io.github.tuguzd.restaurantapp.presentation.view.screen.main.MainScreen
 import io.github.tuguzd.restaurantapp.presentation.view.screen.splash.SplashScreen
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.auth.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
 import kotlinx.coroutines.launch
 
 /**

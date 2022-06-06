@@ -1,21 +1,19 @@
 package io.github.tuguzd.restaurantapp.presentation.di
 
-import androidx.security.crypto.EncryptedSharedPreferences
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.tuguzd.restaurantapp.data.datasource.api.client_work.OrderApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.client_work.OrderItemApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.meal.MenuApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.meal.MenuItemApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.organization.ServiceApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.organization.ServiceItemApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.organization.ServiceItemPointApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.role_access_control.UserApi
-import io.github.tuguzd.restaurantapp.data.datasource.api.util.AuthApi
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.access_control.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.access_control.user.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.client_work.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.meal.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.organization.*
+import io.github.tuguzd.restaurantapp.data.repository.access_control.UserTokenRepository
+import io.github.tuguzd.restaurantapp.domain.util.dataOrNull
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -37,11 +35,10 @@ object BackendModule {
         json.asConverterFactory("application/json".toMediaType())
 
     @Provides
-    @Singleton
-    fun provideAuthInterceptorClient(sharedPreferences: EncryptedSharedPreferences): OkHttpClient =
+    fun provideAuthInterceptorClient(tokenRepository: UserTokenRepository): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val token = sharedPreferences.getString("access_token", null).orEmpty()
+                val token = runBlocking { tokenRepository.getToken() }.dataOrNull()?.token
                 val request = chain
                     .request()
                     .newBuilder()
@@ -52,159 +49,51 @@ object BackendModule {
             .build()
 
     @Provides
-    @Singleton
     @AuthRetrofit
-    fun provideAuthRetrofit(converterFactory: Converter.Factory): Retrofit =
-        retrofit(backendBaseUrl, converterFactory)
+    fun provideAuthRetrofit(converterFactory: Converter.Factory):
+        Retrofit = retrofit(backendBaseUrl, converterFactory)
 
     @Provides
-    @Singleton
-    @UserRetrofit
-    fun provideUserRetrofit(
+    @SimpleRetrofit
+    fun provideRetrofit(
         converterFactory: Converter.Factory,
         authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}users/",
-            converterFactory, authInterceptorClient
-        )
+    ): Retrofit = retrofit(backendBaseUrl, converterFactory, authInterceptorClient)
 
-    @Provides
-    @Singleton
-    @OrderRetrofit
-    fun provideOrderRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}orders/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @OrderItemRetrofit
-    fun provideOrderItemRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}order_items/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @MenuRetrofit
-    fun provideMenuRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}menus/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @MenuItemRetrofit
-    fun provideMenuItemRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}menu_items/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @ServiceRetrofit
-    fun provideServiceRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}services/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @ServiceItemRetrofit
-    fun provideServiceItemRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}service_items/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    @ServiceItemPointRetrofit
-    fun provideServiceItemPointRetrofit(
-        converterFactory: Converter.Factory,
-        authInterceptorClient: OkHttpClient,
-    ): Retrofit =
-        retrofit(
-            "${backendBaseUrl}service_item_points/",
-            converterFactory, authInterceptorClient
-        )
-
-    @Provides
-    @Singleton
-    fun providesAuthAPI(
+    @Provides fun providesAuthAPI(
         @AuthRetrofit retrofit: Retrofit
     ): AuthApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesUserAPI(
-        @UserRetrofit retrofit: Retrofit
+    @Provides fun providesUserAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): UserApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesOrderAPI(
-        @OrderRetrofit retrofit: Retrofit
+    @Provides fun providesOrderAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): OrderApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesOrderItemAPI(
-        @OrderItemRetrofit retrofit: Retrofit
+    @Provides fun providesOrderItemAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): OrderItemApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesMenuAPI(
-        @MenuRetrofit retrofit: Retrofit
+    @Provides fun providesMenuAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): MenuApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesMenuItemAPI(
-        @MenuItemRetrofit retrofit: Retrofit
+    @Provides fun providesMenuItemAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): MenuItemApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesServiceAPI(
-        @ServiceRetrofit retrofit: Retrofit
+    @Provides fun providesServiceAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): ServiceApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesServiceItemAPI(
-        @ServiceItemRetrofit retrofit: Retrofit
+    @Provides fun providesServiceItemAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): ServiceItemApi = retrofit.create()
 
-    @Provides
-    @Singleton
-    fun providesServiceItemPointAPI(
-        @ServiceItemPointRetrofit retrofit: Retrofit
+    @Provides fun providesServiceItemPointAPI(
+        @SimpleRetrofit retrofit: Retrofit
     ): ServiceItemPointApi = retrofit.create()
 
     @JvmStatic

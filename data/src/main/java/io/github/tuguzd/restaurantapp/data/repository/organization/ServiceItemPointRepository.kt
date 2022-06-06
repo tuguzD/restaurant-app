@@ -1,0 +1,27 @@
+package io.github.tuguzd.restaurantapp.data.repository.organization
+
+import io.github.tuguzd.restaurantapp.data.declar.organization.ServiceItemPointDeclaration
+import io.github.tuguzd.restaurantapp.domain.model.organization.service_item_point.ServiceItemPointData
+import io.github.tuguzd.restaurantapp.domain.model.util.NanoId
+import io.github.tuguzd.restaurantapp.domain.util.Error
+import io.github.tuguzd.restaurantapp.domain.util.Result
+
+class ServiceItemPointRepository(
+    private val dataSource: ServiceItemPointDeclaration
+) : ServiceItemPointDeclaration {
+
+    override suspend fun readAll():
+        Result<List<ServiceItemPointData>, Error> = dataSource.readAll()
+
+    override suspend fun readById(id: NanoId):
+        Result<ServiceItemPointData?, Error> = dataSource.readById(id)
+
+    override suspend fun save(item: ServiceItemPointData):
+        Result<Unit, Error> = dataSource.save(item)
+
+    override suspend fun delete(id: NanoId):
+        Result<Unit, Error> = dataSource.delete(id)
+
+    override suspend fun clear():
+        Result<Unit, Error> = dataSource.clear()
+}

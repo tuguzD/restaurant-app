@@ -4,9 +4,9 @@ import io.github.tuguzd.restaurantapp.buildconfig.android.implementation.impleme
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AndroidX {
-    private const val core = "androidx.core:core-ktx:1.7.0"
+    const val core = "androidx.core:core-ktx:1.7.0"
     private const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
-    private const val security = "androidx.security:security-crypto:1.0.0"
+    const val security = "androidx.security:security-crypto:1.0.0"
 
     fun DependencyHandler.androidXImplementation() {
         implementation(core)

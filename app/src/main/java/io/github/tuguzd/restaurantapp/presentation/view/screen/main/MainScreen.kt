@@ -30,7 +30,7 @@ import io.github.tuguzd.restaurantapp.presentation.view.ui.util.DestinationsNavi
 import io.github.tuguzd.restaurantapp.presentation.view.util.ToastDuration
 import io.github.tuguzd.restaurantapp.presentation.view.util.collectAsStateLifecycleAware
 import io.github.tuguzd.restaurantapp.presentation.view.util.showToast
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AccountViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
 
 /**
  * Main screen of the application.

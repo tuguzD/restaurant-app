@@ -21,7 +21,7 @@ import androidx.navigation.navArgument
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.order.OrderScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.util.collectAsStateLifecycleAware
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.OrderViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.order.OrderViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

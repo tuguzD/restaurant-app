@@ -19,7 +19,7 @@ import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVari
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.CredentialsAuthButton
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.GoogleAuthButton
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.PasswordTextField
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.auth.AuthViewModel
 
 /**
  * Base screen content for all authentication screens.

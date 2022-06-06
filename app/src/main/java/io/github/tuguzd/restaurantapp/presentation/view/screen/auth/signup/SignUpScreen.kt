@@ -12,7 +12,7 @@ import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVari
 import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.AuthScreen
 import io.github.tuguzd.restaurantapp.presentation.view.screen.auth.AuthScreenContent
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
-import io.github.tuguzd.restaurantapp.presentation.viewmodel.AuthViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.auth.AuthViewModel
 
 /**
  * Application user sign up screen.

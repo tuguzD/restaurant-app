@@ -12,6 +12,27 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.tuguzd.restaurantapp.data.datasource.local.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.access_control.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.access_control.user.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.client_work.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.meal.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.api.organization.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.impl.access_control.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.impl.access_control.user.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.impl.client_work.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.impl.meal.*
+import io.github.tuguzd.restaurantapp.data.datasource.remote.impl.organization.*
+import io.github.tuguzd.restaurantapp.data.declar.access_control.*
+import io.github.tuguzd.restaurantapp.data.declar.access_control.user.*
+import io.github.tuguzd.restaurantapp.data.declar.client_work.*
+import io.github.tuguzd.restaurantapp.data.declar.meal.*
+import io.github.tuguzd.restaurantapp.data.declar.organization.*
+import io.github.tuguzd.restaurantapp.data.repository.access_control.*
+import io.github.tuguzd.restaurantapp.data.repository.access_control.user.*
+import io.github.tuguzd.restaurantapp.data.repository.client_work.*
+import io.github.tuguzd.restaurantapp.data.repository.meal.*
+import io.github.tuguzd.restaurantapp.data.repository.organization.*
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
@@ -57,4 +78,89 @@ object AppModule {
         )
         return encryptedSharedPreferences as EncryptedSharedPreferences
     }
+
+    @Provides
+    fun provideAuthDataSource(authAPI: AuthApi):
+        AuthDeclaration = RemoteAuthDataSource(authAPI)
+
+    @Provides
+    fun provideAuthRepository(dataSource: AuthDeclaration):
+        AuthRepository = AuthRepository(dataSource)
+
+    @Provides
+    fun provideUserDataSource(userApi: UserApi):
+        UserDeclaration = RemoteUserDataSource(userApi)
+
+    @Provides
+    fun provideUserRepository(dataSource: UserDeclaration):
+        UserRepository = UserRepository(dataSource)
+
+    @Provides
+    fun provideUserTokenRepository(dataSource: UserTokenDeclaration):
+        UserTokenRepository = UserTokenRepository(dataSource)
+
+    @Provides
+    @Singleton
+    fun provideCurrentUserRepository():
+        CurrentUserRepository = CurrentUserRepository()
+
+    @Provides
+    fun provideOrderDataSource(orderApi: OrderApi):
+        OrderDeclaration = RemoteOrderDataSource(orderApi)
+
+    @Provides
+    fun provideOrderRepository(dataSource: OrderDeclaration):
+        OrderRepository = OrderRepository(dataSource)
+
+    @Provides
+    fun provideOrderItemDataSource(orderItemApi: OrderItemApi):
+        OrderItemDeclaration = RemoteOrderItemDataSource(orderItemApi)
+
+    @Provides
+    fun provideOrderItemRepository(dataSource: OrderItemDeclaration):
+        OrderItemRepository = OrderItemRepository(dataSource)
+
+    @Provides
+    fun provideMenuDataSource(menuApi: MenuApi):
+        MenuDeclaration = RemoteMenuDataSource(menuApi)
+
+    @Provides
+    fun provideMenuRepository(dataSource: MenuDeclaration):
+        MenuRepository = MenuRepository(dataSource)
+
+    @Provides
+    fun provideMenuItemDataSource(menuItemApi: MenuItemApi):
+        MenuItemDeclaration = RemoteMenuItemDataSource(menuItemApi)
+
+    @Provides
+    fun provideMenuItemRepository(dataSource: MenuItemDeclaration):
+        MenuItemRepository = MenuItemRepository(dataSource)
+
+    @Provides
+    fun provideServiceDataSource(serviceApi: ServiceApi):
+        ServiceDeclaration = RemoteServiceDataSource(serviceApi)
+
+    @Provides
+    fun provideServiceRepository(dataSource: ServiceDeclaration):
+        ServiceRepository = ServiceRepository(dataSource)
+
+    @Provides
+    fun provideServiceItemDataSource(serviceItemApi: ServiceItemApi):
+        ServiceItemDeclaration = RemoteServiceItemDataSource(serviceItemApi)
+
+    @Provides
+    fun provideServiceItemRepository(dataSource: ServiceItemDeclaration):
+        ServiceItemRepository = ServiceItemRepository(dataSource)
+
+    @Provides
+    fun provideServiceItemPointDataSource(serviceItemPointApi: ServiceItemPointApi):
+        ServiceItemPointDeclaration = RemoteServiceItemPointDataSource(serviceItemPointApi)
+
+    @Provides
+    fun provideServiceItemPointRepository(dataSource: ServiceItemPointDeclaration):
+        ServiceItemPointRepository = ServiceItemPointRepository(dataSource)
+
+    @Provides
+    fun provide(sharedPreferences: EncryptedSharedPreferences):
+        UserTokenDeclaration = LocalUserTokenDataSource(sharedPreferences)
 }
