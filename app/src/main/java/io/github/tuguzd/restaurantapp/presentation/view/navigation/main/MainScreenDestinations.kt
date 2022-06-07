@@ -15,8 +15,8 @@ import io.github.tuguzd.restaurantapp.presentation.view.screen.main.MainScreen
  * Bottom navigation destinations of the application's [main screen][MainScreen].
  */
 sealed class MainScreenDestinations(
-    override val route: String,
     override val icon: ImageVector,
+    override val route: String,
 ) : BottomNavigationDestination {
 
     object Orders : MainScreenDestinations(

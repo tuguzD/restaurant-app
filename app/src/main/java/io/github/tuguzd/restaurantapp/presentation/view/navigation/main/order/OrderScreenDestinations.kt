@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.util.DescribableDestination
-import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrdersScreen
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrderScreen
 
 /**
  * Describable navigation destinations
- * of [*Orders*][OrdersScreen] main application destination.
+ * of [*Orders*][OrderScreen] main application destination.
  */
 sealed class OrderScreenDestinations(override val route: String) : DescribableDestination {
 
@@ -22,7 +22,7 @@ sealed class OrderScreenDestinations(override val route: String) : DescribableDe
             @Composable get() = stringResource(R.string.add_order)
     }
 
-    object OrderDetail : OrderScreenDestinations(route = "orderDetail") {
+    object OrderDetail : OrderScreenDestinations(route = "order") {
         override val description: String
             @Composable get() = stringResource(R.string.order_detail)
     }

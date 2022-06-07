@@ -31,14 +31,15 @@ object BackendModule {
     @Provides
     @Singleton
     @OptIn(ExperimentalSerializationApi::class)
-    fun providesConverterFactory(json: Json): Converter.Factory =
+    fun provideConverterFactory(json: Json): Converter.Factory =
         json.asConverterFactory("application/json".toMediaType())
 
     @Provides
     fun provideAuthInterceptorClient(tokenRepository: UserTokenRepository): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val token = runBlocking { tokenRepository.getToken() }.dataOrNull()?.token
+                val token = runBlocking { tokenRepository.getToken() }
+                    .dataOrNull()?.token
                 val request = chain
                     .request()
                     .newBuilder()
@@ -60,39 +61,48 @@ object BackendModule {
         authInterceptorClient: OkHttpClient,
     ): Retrofit = retrofit(backendBaseUrl, converterFactory, authInterceptorClient)
 
-    @Provides fun providesAuthAPI(
+    @Provides
+    fun provideAuthAPI(
         @AuthRetrofit retrofit: Retrofit
     ): AuthApi = retrofit.create()
 
-    @Provides fun providesUserAPI(
+    @Provides
+    fun provideUserAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): UserApi = retrofit.create()
 
-    @Provides fun providesOrderAPI(
+    @Provides
+    fun provideOrderAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): OrderApi = retrofit.create()
 
-    @Provides fun providesOrderItemAPI(
+    @Provides
+    fun provideOrderItemAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): OrderItemApi = retrofit.create()
 
-    @Provides fun providesMenuAPI(
+    @Provides
+    fun provideMenuAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): MenuApi = retrofit.create()
 
-    @Provides fun providesMenuItemAPI(
+    @Provides
+    fun provideMenuItemAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): MenuItemApi = retrofit.create()
 
-    @Provides fun providesServiceAPI(
+    @Provides
+    fun provideServiceAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): ServiceApi = retrofit.create()
 
-    @Provides fun providesServiceItemAPI(
+    @Provides
+    fun provideServiceItemAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): ServiceItemApi = retrofit.create()
 
-    @Provides fun providesServiceItemPointAPI(
+    @Provides
+    fun provideServiceItemPointAPI(
         @SimpleRetrofit retrofit: Retrofit
     ): ServiceItemPointApi = retrofit.create()
 
@@ -102,11 +112,9 @@ object BackendModule {
         baseUrl: String,
         converterFactory: Converter.Factory,
         client: OkHttpClient? = null,
-    ): Retrofit =
-        Retrofit.Builder()
-            .apply { client?.let { client(it) } }
-            .baseUrl(baseUrl)
-            .addConverterFactory(converterFactory)
-            .addCallAdapterFactory(NetworkResponseAdapterFactory())
-            .build()
+    ): Retrofit = Retrofit.Builder()
+        .apply { client?.let { client(it) } }
+        .baseUrl(baseUrl).addConverterFactory(converterFactory)
+        .addCallAdapterFactory(NetworkResponseAdapterFactory())
+        .build()
 }

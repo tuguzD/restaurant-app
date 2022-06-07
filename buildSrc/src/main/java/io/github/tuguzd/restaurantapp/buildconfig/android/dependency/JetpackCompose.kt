@@ -29,7 +29,7 @@ object JetpackCompose {
     }
 
     object Accompanist {
-        const val version = "0.24.9-beta"
+        const val version = "0.24.10-beta"
 
         object Navigation {
             const val material =

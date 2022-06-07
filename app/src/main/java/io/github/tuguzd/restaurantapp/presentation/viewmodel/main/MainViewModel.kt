@@ -15,22 +15,22 @@ class MainViewModel @Inject constructor() : ViewModel() {
         private val logger = KotlinLogging.logger {}
     }
 
-    private var _uiState by mutableStateOf(MainState())
-    val uiState get() = _uiState
+    private var _state by mutableStateOf(MainState())
+    val state get() = _state
 
     fun updateTitle(title: String) {
-        _uiState = uiState.copy(title = title)
+        _state = state.copy(title = title)
     }
 
     fun updateFilled(isFilled: Boolean) {
-        _uiState = uiState.copy(isFilled = isFilled)
+        _state = state.copy(isFilled = isFilled)
     }
 
     fun updateCurrentDestination(currentDestination: Destination) {
-        _uiState = uiState.copy(currentDestination = currentDestination)
+        _state = state.copy(currentDestination = currentDestination)
     }
 
     fun updateOnNavigateUpAction(onNavigateUpAction: () -> Unit) {
-        _uiState = uiState.copy(onNavigateUpAction = onNavigateUpAction)
+        _state = state.copy(onNavigateUpAction = onNavigateUpAction)
     }
 }

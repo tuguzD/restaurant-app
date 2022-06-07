@@ -28,29 +28,22 @@ fun OrderDetailScreen(
     painter: Painter? = null
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
         val imageShape = MaterialTheme.shapes.medium.copy(
             topStart = ZeroCornerSize,
             topEnd = ZeroCornerSize,
         )
-
         Surface(tonalElevation = 5.dp, shape = imageShape) {
             Image(
-                modifier = Modifier
-                    .heightIn(min = 240.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.heightIn(min = 240.dp).fillMaxWidth(),
                 painter = painter ?: ColorPainter(Color.Transparent),
                 contentDescription = stringResource(R.string.order_picture),
             )
         }
 
         Column(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize(),
+            modifier = Modifier.padding(8.dp).fillMaxSize(),
         ) {
             OrderProperty(
                 name = stringResource(R.string.serviceItemPoint),
@@ -102,44 +95,3 @@ fun OrderProperty(name: String, value: String) {
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
-
-// @Preview(name = "Light Mode")
-// @Preview(
-//    name = "Dark Mode",
-//    uiMode = Configuration.UI_MODE_NIGHT_YES,
-// )
-// @Composable
-// private fun ComponentDetailsScreenPreview() {
-//    RestaurantAppTheme {
-//        val serviceItemPoint = ServiceItemPointData(
-//            name = "Table №7"
-//        )
-//
-//        val order = OrderData(
-//            description = null,
-//            clientCount = 3,
-//            serviceItemPoint = serviceItemPoint
-//        )
-//
-//        val menuItem = MenuItemData(
-//            type = MenuItemType.Cocktail,
-//            description = "Nice strawberry cocktail",
-//        )
-//
-//        val mockOrder = OrderData(
-//            description = null,
-//            clientCount = 3,
-//            serviceItemPoint = serviceItemPoint,
-//            orderItems = List(5) {
-//                OrderItemData(
-//                    order = order,
-//                    menuItem = menuItem
-//                )
-//            }.toSet()
-//        )
-//
-//        Surface {
-//            OrderDetailScreen(mockOrder)
-//        }
-//    }
-// }

@@ -51,8 +51,7 @@ object AppModule {
     fun provideGoogleSignInOptions(): GoogleSignInOptions {
         return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestServerAuthCode(serverClientId)
-            .requestEmail()
-            .build()
+            .requestEmail().build()
     }
 
     @Provides

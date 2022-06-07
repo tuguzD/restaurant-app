@@ -11,19 +11,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.navigation.auth.AuthVariant
 
 /**
  * Google authentication light button.
  */
 @Composable
 fun GoogleAuthButton(
-    onClick: (AuthVariant.Google) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme(colorScheme = lightColorScheme()) {
         ElevatedButton(
-            onClick = { onClick(AuthVariant.Google) },
+            onClick = { onClick() },
             modifier = modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,

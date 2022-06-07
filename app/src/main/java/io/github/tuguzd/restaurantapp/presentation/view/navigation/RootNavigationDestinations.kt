@@ -9,8 +9,6 @@ import io.github.tuguzd.restaurantapp.presentation.view.screen.RootScreen
 sealed class RootNavigationDestinations(override val route: String) : Destination {
     object Main : RootNavigationDestinations(route = "main")
 
-    object Splash : RootNavigationDestinations(route = "splash")
-
     /**
      * Navigation destinations that represent *Authentication* user flow.
      */

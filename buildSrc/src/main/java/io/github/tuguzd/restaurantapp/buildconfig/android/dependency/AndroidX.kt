@@ -7,11 +7,13 @@ object AndroidX {
     const val core = "androidx.core:core-ktx:1.7.0"
     private const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
     const val security = "androidx.security:security-crypto:1.0.0"
+    private const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta02"
 
     fun DependencyHandler.androidXImplementation() {
         implementation(core)
-        implementation(lifecycle)
         implementation(security)
+        implementation(lifecycle)
+        implementation(splashScreen)
     }
 
     object Log {

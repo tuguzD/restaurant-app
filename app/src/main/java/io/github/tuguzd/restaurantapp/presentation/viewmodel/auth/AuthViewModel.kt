@@ -1,24 +1,26 @@
 package io.github.tuguzd.restaurantapp.presentation.viewmodel.auth
 
 import android.content.Intent
-import androidx.annotation.CheckResult
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
-import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.tuguzd.restaurantapp.data.datasource.remote.api.access_control.AuthApi
-import io.github.tuguzd.restaurantapp.data.datasource.remote.util.BackendCompletableResponse
-import io.github.tuguzd.restaurantapp.data.datasource.remote.util.makeUnknownError
+import io.github.tuguzd.restaurantapp.data.repository.access_control.AuthRepository
+import io.github.tuguzd.restaurantapp.data.repository.access_control.UserTokenRepository
+import io.github.tuguzd.restaurantapp.data.repository.access_control.user.CurrentUserRepository
+import io.github.tuguzd.restaurantapp.data.repository.access_control.user.UserRepository
 import io.github.tuguzd.restaurantapp.domain.model.access_control.credential.UserCredentialsData
 import io.github.tuguzd.restaurantapp.domain.model.access_control.token.UserTokenData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.github.tuguzd.restaurantapp.domain.model.util.NanoId
+import io.github.tuguzd.restaurantapp.domain.util.Result
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.util.UserMessage
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import mu.KotlinLogging
 import javax.inject.Inject
 
 /**
@@ -26,83 +28,115 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authAPI: AuthApi,
-    private val sharedPreferences: EncryptedSharedPreferences,
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
+    private val tokenRepository: UserTokenRepository,
     private val googleSignInClient: GoogleSignInClient,
+    private val currentUserRepository: CurrentUserRepository,
 ) : ViewModel() {
 
-    var username by mutableStateOf("")
-    var password by mutableStateOf("")
-    var passwordVisible by mutableStateOf(false)
+    companion object {
+        private val logger = KotlinLogging.logger {}
+    }
 
-    @CheckResult
-    suspend fun auth(credentials: UserCredentialsData): BackendCompletableResponse {
-        val userToken = withContext(Dispatchers.IO) {
-            authAPI.auth(credentials)
-        }
-        return when (userToken) {
-            is NetworkResponse.Success -> {
-                withContext(Dispatchers.IO) {
-                    sharedPreferences.edit {
-                        putString("access_token", userToken.body.token)
-                    }
+    private var _state by mutableStateOf(AuthState())
+    val state get() = _state
+
+    fun updateUsername(username: String) {
+        _state = state.copy(username = username)
+    }
+
+    fun updatePassword(password: String) {
+        _state = state.copy(password = password)
+    }
+
+    fun updatePasswordVisible(passwordVisible: Boolean) {
+        _state = state.copy(passwordVisible = passwordVisible)
+    }
+
+    fun updateIsLoggedIn(isLoggedIn: Boolean) {
+        _state = state.copy(isLoggedIn = isLoggedIn)
+    }
+
+    fun userMessageShown(messageId: NanoId) {
+        val messages = state.userMessages.filterNot { it.id == messageId }
+        _state = state.copy(userMessages = messages)
+    }
+
+    private var authJob: Job? = null
+
+    fun auth() {
+        authJob?.cancel()
+        authJob = viewModelScope.launch {
+            _state = state.copy(isLoading = true)
+            val credentials = UserCredentialsData(
+                username = state.username,
+                password = state.password,
+            )
+            authRepository.auth(credentials).handle { tokenData ->
+                tokenRepository.setToken(tokenData)
+                userRepository.current().handle {
+                    currentUserRepository.updateCurrentUser(it)
+                    _state = state.copy(isLoggedIn = true)
                 }
-                NetworkResponse.Success(Unit, userToken.response)
             }
-            is NetworkResponse.Error -> {
-                @Suppress("UNCHECKED_CAST")
-                userToken as BackendCompletableResponse
-            }
+            _state = state.copy(isLoading = false)
         }
     }
 
-    @CheckResult
-    suspend fun register(user: UserCredentialsData): BackendCompletableResponse {
-        val userToken = withContext(Dispatchers.IO) {
-            authAPI.register(user)
-        }
-        return when (userToken) {
-            is NetworkResponse.Success -> {
-                withContext(Dispatchers.IO) {
-                    sharedPreferences.edit {
-                        putString("access_token", userToken.body.token)
-                    }
+    fun register() {
+        authJob?.cancel()
+        authJob = viewModelScope.launch {
+            _state = state.copy(isLoading = true)
+            val credentials = UserCredentialsData(
+                username = state.username,
+                password = state.password,
+            )
+            authRepository.register(credentials).handle { token ->
+                tokenRepository.setToken(token)
+                userRepository.current().handle {
+                    currentUserRepository.updateCurrentUser(it)
+                    _state = state.copy(isLoggedIn = true)
                 }
-                NetworkResponse.Success(Unit, userToken.response)
             }
-            is NetworkResponse.Error -> {
-                @Suppress("UNCHECKED_CAST")
-                userToken as BackendCompletableResponse
-            }
+            _state = state.copy(isLoading = false)
         }
     }
 
-    @get:CheckResult
     val googleSignInIntent: Intent
         get() = googleSignInClient.signInIntent
 
-    @CheckResult
-    suspend fun googleOAuth2(account: GoogleSignInAccount): BackendCompletableResponse {
-        val authCodeString = account.serverAuthCode
-            ?: return makeUnknownError("Cannot retrieve id from Google account")
-        val authCode = UserTokenData(authCodeString)
-
-        val userToken = withContext(Dispatchers.IO) {
-            authAPI.googleOAuth2(authCode)
+    fun googleOAuth2(account: GoogleSignInAccount) {
+        val authCodeString = account.serverAuthCode ?: run {
+            val newMessage = UserMessage(AuthMessageKind.NoGoogleId)
+            val errorMessages = state.userMessages + newMessage
+            _state = state.copy(userMessages = errorMessages)
+            return
         }
-        return when (userToken) {
-            is NetworkResponse.Success -> {
-                withContext(Dispatchers.IO) {
-                    sharedPreferences.edit {
-                        putString("access_token", userToken.body.token)
-                    }
+
+        authJob?.cancel()
+        authJob = viewModelScope.launch {
+            _state = state.copy(isLoading = true)
+            val authCode = UserTokenData(authCodeString)
+            authRepository.googleOAuth2(authCode).handle { token ->
+                tokenRepository.setToken(token)
+                userRepository.current().handle {
+                    currentUserRepository.updateCurrentUser(it)
+                    _state = state.copy(isLoggedIn = true)
                 }
-                NetworkResponse.Success(Unit, userToken.response)
             }
-            is NetworkResponse.Error -> {
-                @Suppress("UNCHECKED_CAST")
-                userToken as BackendCompletableResponse
-            }
+            _state = state.copy(isLoading = false)
         }
     }
+
+    private inline fun <S, E> Result<S, E>.handle(onSuccess: (S) -> Unit): Unit =
+        when (this) {
+            is Result.Success -> onSuccess(data)
+            is Result.Error -> {
+                logger.error(throwable) { "Unknown error occurred" }
+                val message = UserMessage(AuthMessageKind.Backend.unknown())
+                val errorMessages = state.userMessages + message
+                _state = state.copy(userMessages = errorMessages)
+            }
+        }
 }

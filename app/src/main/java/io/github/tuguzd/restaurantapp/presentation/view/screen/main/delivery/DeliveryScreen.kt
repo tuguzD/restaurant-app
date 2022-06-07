@@ -12,13 +12,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.MainViewModel
 
 @Composable
-fun DeliveryScreen(onTitleChanged: (String) -> Unit) {
+fun DeliveryScreen(
+    mainViewModel: MainViewModel = hiltViewModel(),
+) {
     val appName = stringResource(R.string.app_name)
-    SideEffect { onTitleChanged(appName) }
+    SideEffect {
+        mainViewModel.updateTitle(appName)
+        mainViewModel.updateFilled(isFilled = false)
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -40,7 +47,7 @@ fun DeliveryScreen(onTitleChanged: (String) -> Unit) {
 private fun DeliveryScreenPreview() {
     RestaurantAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            DeliveryScreen(onTitleChanged = {})
+            DeliveryScreen()
         }
     }
 }

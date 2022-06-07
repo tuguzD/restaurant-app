@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.ColorPainter
@@ -14,6 +15,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.fade
+import com.google.accompanist.placeholder.material.placeholder
 import io.github.tuguzd.restaurantapp.domain.model.client_work.order.Order
 import io.github.tuguzd.restaurantapp.presentation.R
 
@@ -27,28 +31,39 @@ fun OrderListItem(
     order: Order,
     painter: Painter? = null,
     shape: Shape = MaterialTheme.shapes.medium,
+    imageShape: Shape = MaterialTheme.shapes.medium,
     onClick: () -> Unit,
 ) {
-    Card(shape = shape, onClick = onClick) {
-        Column {
-            Surface(tonalElevation = 5.dp, shape = shape) {
-                Image(
-                    painter = painter ?: ColorPainter(Color.Transparent),
-                    contentDescription = painter?.let {
-                        stringResource(R.string.order_picture)
+    ElevatedCard(shape = shape, onClick = onClick) {
+        Row(modifier = Modifier.padding(16.dp)) {
+            Image(
+                modifier = Modifier
+                    .size(128.dp).clip(imageShape)
+                    .run {
+                        when (painter) {
+                            null -> placeholder(
+                                visible = true,
+                                highlight = PlaceholderHighlight.fade(),
+                            )
+                            else -> this
+                        }
                     },
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(194.dp)
-                        .fillMaxWidth(),
-                )
-            }
-            Column(modifier = Modifier.padding(8.dp)) {
+                painter = painter ?: ColorPainter(Color.Transparent),
+                contentDescription = painter?.let {
+                    stringResource(R.string.order_picture)
+                },
+                contentScale = ContentScale.Crop,
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
                 DisableSelection {
                     Text(
-                        text = "${order.serviceItemPoint.name} " +
-                            "with ${order.clientCount} guests",
-                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        text = order.serviceItemPoint.name +
+                            "\nwith ${order.clientCount} guests",
+                        maxLines = 2,
+                        style = MaterialTheme.typography.titleMedium,
+                        overflow = TextOverflow.Ellipsis,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -62,48 +77,3 @@ fun OrderListItem(
         }
     }
 }
-
-// @Preview(name = "Light Mode")
-// @Preview(
-//    name = "Dark Mode",
-//    uiMode = Configuration.UI_MODE_NIGHT_YES,
-// )
-// @Composable
-// private fun OrderListItemPreview() {
-//    RestaurantAppTheme {
-//        val serviceItemPoint = ServiceItemPointData(
-//            name = "Table №7"
-//        )
-//
-//        val order = OrderData(
-//            description = null,
-//            clientCount = 3,
-//            serviceItemPoint = serviceItemPoint
-//        )
-//
-//        val menuItem = MenuItemData(
-//            type = MenuItemType.Cocktail,
-//            description = "Nice strawberry cocktail",
-//        )
-//
-//        val mockOrder = OrderData(
-//            description = null,
-//            clientCount = 3,
-//            serviceItemPoint = serviceItemPoint,
-//            orderItems = List(5) {
-//                OrderItemData(
-//                    order = order,
-//                    menuItem = menuItem
-//                )
-//            }.toSet()
-//        )
-//
-//        Surface {
-//            OrderListItem(
-//                order = mockOrder,
-//                painter = painterResource(R.drawable.ic_launcher_background),
-//                onClick = {},
-//            )
-//        }
-//    }
-// }

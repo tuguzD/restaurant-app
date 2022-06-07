@@ -29,10 +29,8 @@ fun AuthScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(8.dp)
-                .fillMaxSize()
+            modifier = Modifier.padding(padding)
+                .padding(8.dp).fillMaxSize()
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,

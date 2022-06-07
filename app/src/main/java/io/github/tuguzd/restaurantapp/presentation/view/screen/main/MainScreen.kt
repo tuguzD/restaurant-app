@@ -1,36 +1,33 @@
 package io.github.tuguzd.restaurantapp.presentation.view.screen.main
 
-import android.content.res.Configuration
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.tuguzd.restaurantapp.presentation.R
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.screen.main.account.AccountScreen
 import io.github.tuguzd.restaurantapp.presentation.view.screen.main.delivery.DeliveryScreen
-import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrdersScreen
-import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrderScreen
 import io.github.tuguzd.restaurantapp.presentation.view.ui.util.DestinationsNavigationBar
 import io.github.tuguzd.restaurantapp.presentation.view.util.ToastDuration
-import io.github.tuguzd.restaurantapp.presentation.view.util.collectAsStateLifecycleAware
 import io.github.tuguzd.restaurantapp.presentation.view.util.showToast
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.MainViewModel
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.navigationVisible
 
 /**
  * Main screen of the application.
@@ -38,64 +35,69 @@ import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.Accoun
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onSignOut: () -> Unit,
-    accountViewModel: AccountViewModel = viewModel(),
+    accountViewModel: AccountViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
     val appName = stringResource(R.string.app_name)
+    LaunchedEffect(Unit) {
+        mainViewModel.updateTitle(appName)
+    }
 
-    var titleText by rememberSaveable { mutableStateOf(appName) }
-    var showSearch by rememberSaveable { mutableStateOf(true) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    LaunchedEffect(currentRoute) {
+        val currentDestination = when (currentRoute) {
+            Orders.route -> Orders
+            Account.route -> Account
+            Delivery.route -> Delivery
+            else -> return@LaunchedEffect
+        }
+        mainViewModel.updateCurrentDestination(currentDestination)
+    }
+
+    val orderNavController = rememberNavController()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
             MainScreenTopAppBar(
-                titleText = titleText,
-                showSearch = showSearch,
-                onSearchClick = { /* TODO */ },
+                mainViewModel = mainViewModel,
+                orderNavController = orderNavController,
             )
         },
         bottomBar = {
             DestinationsNavigationBar(
                 navController = navController,
                 destinations = listOf(Orders, Delivery, Account),
-                onDestinationNavigate = { destination ->
-                    showSearch = when (destination) {
-                        Orders -> true
-                        else -> false
-                    }
-                }
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { padding ->
-        val onTitleChanged: (String) -> Unit = { titleText = it }
-
         NavHost(
             navController = navController,
             startDestination = Orders.route,
             modifier = Modifier.padding(padding),
         ) {
             composable(Orders.route) {
-                OrdersScreen(onTitleChanged)
+                OrderScreen(
+                    mainViewModel, navController = orderNavController,
+                    snackbarHostState = snackbarHostState,
+                )
             }
             composable(Delivery.route) {
-                DeliveryScreen(onTitleChanged)
+                DeliveryScreen(mainViewModel)
             }
             composable(Account.route) account@{
-                val currentUser by accountViewModel.currentUser.collectAsStateLifecycleAware()
-                val user = currentUser ?: kotlin.run {
-                    onSignOut()
-                    return@account
-                }
+                val user = accountViewModel.state.currentUser ?: return@account
 
                 val context = LocalContext.current
                 val toastText = stringResource(R.string.signed_out_success)
                 AccountScreen(
-                    user = user,
-                    onTitleChanged = onTitleChanged,
+                    user = user, mainViewModel = mainViewModel,
                     onSignOut = {
                         showToast(context, toastText, ToastDuration.Short)
-                        onSignOut()
+                        accountViewModel.signOut()
                     },
                 )
             }
@@ -103,36 +105,25 @@ fun MainScreen(
     }
 }
 
-@Preview(name = "Light Mode")
-@Preview(
-    name = "Dark Mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun MainScreenPreview() {
-    RestaurantAppTheme {
-        MainScreen(onSignOut = {})
-    }
-}
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun MainScreenTopAppBar(
-    titleText: String,
-    showSearch: Boolean,
-    onSearchClick: () -> Unit,
+    mainViewModel: MainViewModel,
+    orderNavController: NavHostController,
 ) {
-    Surface(tonalElevation = 2.dp) {
+    val tonalElevation by animateDpAsState(if (mainViewModel.state.isFilled) 4.dp else 0.dp)
+
+    Surface(tonalElevation = tonalElevation) {
         CenterAlignedTopAppBar(
             title = {
-                AnimatedContent(targetState = titleText) { text -> Text(text) }
+                AnimatedContent(targetState = mainViewModel.state.title) { title -> Text(title) }
             },
-            actions = {
-                AnimatedVisibility(visible = showSearch) {
-                    IconButton(onClick = onSearchClick) {
+            navigationIcon = {
+                if (mainViewModel.state.navigationVisible) {
+                    IconButton(onClick = mainViewModel.state.onNavigateUpAction) {
                         Icon(
-                            imageVector = Icons.Rounded.Search,
-                            contentDescription = stringResource(R.string.search_something),
+                            imageVector = Icons.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.navigate_up),
                         )
                     }
                 }

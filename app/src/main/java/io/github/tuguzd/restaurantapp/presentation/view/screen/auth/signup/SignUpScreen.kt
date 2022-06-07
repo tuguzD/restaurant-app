@@ -25,9 +25,7 @@ fun SignUpScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) = AuthScreen(snackbarHostState) {
     AuthScreenContent(
-        title = stringResource(R.string.sign_up),
-        viewModel = viewModel,
-        onAuth = onSignUp,
+        title = stringResource(R.string.sign_up), authViewModel = viewModel, onAuth = onSignUp,
         alternativeDestinationDescription = stringResource(R.string.have_account),
         alternativeDestinationText = stringResource(R.string.sign_in),
         onAlternativeNavigate = onSignInNavigate,

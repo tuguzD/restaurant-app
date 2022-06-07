@@ -19,15 +19,17 @@ fun OrderList(
     orders: List<Order>,
     onOrderClick: (Order) -> Unit,
     modifier: Modifier = Modifier,
-    state: LazyListState = rememberLazyListState(),
+    isRefreshing: Boolean = false,
+    onRefresh: () -> Unit = {},
+    lazyListState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
-        state = state,
         modifier = modifier,
+        state = lazyListState,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        items(orders, key = { it.id }) { order ->
+        items(orders, key = { it.id.toString() }) { order ->
             OrderListItem(
                 order = order,
                 onClick = { onOrderClick(order) }
@@ -35,45 +37,3 @@ fun OrderList(
         }
     }
 }
-
-// @Preview(name = "Light Mode")
-// @Preview(
-//    name = "Dark Mode",
-//    uiMode = Configuration.UI_MODE_NIGHT_YES,
-// )
-// @Composable
-// private fun OrderListPreview() {
-//    val order = OrderData(
-//        description = null,
-//        clientCount = 3,
-//    )
-//
-//    val menuItem = MenuItemData(
-//        type = MenuItemType.Cocktail,
-//        description = "Nice strawberry cocktail",
-//    )
-//
-//    val orders = List(4) {
-//        OrderData(
-//            description = null,
-//            clientCount = 3,
-//            orderItems = setOf(
-//                OrderItemData(
-//                    order = order,
-//                    menuItem = menuItem
-//                ),
-//                OrderItemData(
-//                    order = order,
-//                    menuItem = menuItem
-//                )
-//            )
-//        )
-//    }
-//
-//    Surface {
-//        OrderList(
-//            orders = orders,
-//            onOrderClick = {},
-//        )
-//    }
-// }
