@@ -26,4 +26,9 @@ sealed class OrderScreenDestinations(override val route: String) : DescribableDe
         override val description: String
             @Composable get() = stringResource(R.string.order_detail)
     }
+
+    object OrderItemDetail : OrderScreenDestinations(route = "orderItem") {
+        override val description: String
+            @Composable get() = stringResource(R.string.order_item_detail)
+    }
 }

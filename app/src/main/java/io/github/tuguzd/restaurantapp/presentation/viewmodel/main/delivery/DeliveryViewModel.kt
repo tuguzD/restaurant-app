@@ -1,4 +1,4 @@
-package io.github.tuguzd.restaurantapp.presentation.viewmodel.main.order
+package io.github.tuguzd.restaurantapp.presentation.viewmodel.main.delivery
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.tuguzd.restaurantapp.data.repository.client_work.OrderItemRepository
-import io.github.tuguzd.restaurantapp.data.repository.client_work.OrderRepository
 import io.github.tuguzd.restaurantapp.domain.model.client_work.order.OrderData
 import io.github.tuguzd.restaurantapp.domain.model.util.NanoId
 import io.github.tuguzd.restaurantapp.domain.util.Result
@@ -18,11 +17,10 @@ import mu.KotlinLogging
 import javax.inject.Inject
 
 /**
- * Injectable view model with list of orders.
+ * Injectable view model with list of order items.
  */
 @HiltViewModel
-class OrderViewModel @Inject constructor(
-    private val orderRepository: OrderRepository,
+class DeliveryViewModel @Inject constructor(
     private val orderItemRepository: OrderItemRepository,
 ) : ViewModel() {
 
@@ -30,31 +28,13 @@ class OrderViewModel @Inject constructor(
         private val logger = KotlinLogging.logger {}
     }
 
-    private var _state by mutableStateOf(OrderState())
+    private var _state by mutableStateOf(DeliveryState())
     val state get() = _state
 
     private var updateJob: Job? = null
 
     init {
-        updateOrders()
-    }
-
-    fun updateOrders() {
-        updateJob?.cancel()
-        updateJob = viewModelScope.launch {
-            _state = state.copy(isUpdating = true)
-            _state = when (val result = orderRepository.readAll()) {
-                is Result.Error -> {
-                    logger.error(result.throwable) { "Unknown error: ${result.error}" }
-                    val message = UserMessage(OrderMessageKind.UnknownError)
-                    val userMessages = state.userMessages + message
-                    state.copy(userMessages = userMessages, isUpdating = false)
-                }
-                is Result.Success -> state.copy(
-                    orders = result.data, isUpdating = false
-                )
-            }
-        }
+        updateOrderItems()
     }
 
     fun updateOrderItems(order: OrderData? = null) {
@@ -64,7 +44,7 @@ class OrderViewModel @Inject constructor(
             _state = when (val result = orderItemRepository.readAll()) {
                 is Result.Error -> {
                     logger.error(result.throwable) { "Unknown error: ${result.error}" }
-                    val message = UserMessage(OrderMessageKind.UnknownError)
+                    val message = UserMessage(DeliveryMessageKind.UnknownError)
                     val userMessages = state.userMessages + message
                     state.copy(userMessages = userMessages, isUpdating = false)
                 }
@@ -76,24 +56,6 @@ class OrderViewModel @Inject constructor(
                     state.copy(orderItems = data, isUpdating = false)
                 }
             }
-        }
-    }
-
-    // Doesn't work (why???)
-    fun createOrder(order: OrderData) {
-        updateJob?.cancel()
-        updateJob = viewModelScope.launch {
-            orderRepository.save(order)
-//            _state = state.copy(isUpdating = true)
-//            _state = when (val result = orderRepository.save(order)) {
-//                is Result.Error -> {
-//                    logger.error(result.throwable) { "Unknown error: ${result.error}" }
-//                    val message = UserMessage(OrderMessageKind.UnknownError)
-//                    val userMessages = state.userMessages + message
-//                    state.copy(userMessages = userMessages, isUpdating = false)
-//                }
-//                is Result.Success -> state.copy(isUpdating = false)
-//            }
         }
     }
 

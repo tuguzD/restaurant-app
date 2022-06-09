@@ -1,53 +1,78 @@
 package io.github.tuguzd.restaurantapp.presentation.view.screen.main.delivery
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import android.content.Context
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import io.github.tuguzd.restaurantapp.domain.model.util.NanoId
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.delivery.DeliveryScreenDestinations.*
+import io.github.tuguzd.restaurantapp.presentation.view.screen.main.order.OrderItemDetailScreen
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.MainViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.delivery.DeliveryMessageKind
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.delivery.DeliveryViewModel
 
+/**
+ * Application screen which represents *Delivery* main application destination.
+ */
 @Composable
 fun DeliveryScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
+    deliveryViewModel: DeliveryViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    navController: NavHostController = rememberNavController(),
 ) {
-    val appName = stringResource(R.string.app_name)
-    SideEffect {
-        mainViewModel.updateTitle(appName)
-        mainViewModel.updateFilled(isFilled = false)
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    LaunchedEffect(currentRoute) {
+        currentRoute ?: return@LaunchedEffect
+        val currentDestination = when {
+            currentRoute == DeliveryList.route -> MainScreenDestinations.Delivery
+            DeliveryDetail.route in currentRoute -> DeliveryDetail
+            else -> return@LaunchedEffect
+        }
+        mainViewModel.updateCurrentDestination(currentDestination)
+        mainViewModel.updateOnNavigateUpAction(navController::navigateUp)
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.coming_soon),
-            style = MaterialTheme.typography.headlineMedium,
-        )
+    NavHost(navController = navController, startDestination = DeliveryList.route) {
+        composable(DeliveryList.route) {
+            DeliveryListScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                deliveryViewModel = deliveryViewModel,
+                snackbarHostState = snackbarHostState,
+            )
+        }
+        composable(
+            route = "${DeliveryDetail.route}/{id}",
+            arguments = listOf(
+                navArgument(name = "id") { type = NavType.StringType },
+            ),
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
+            val nanoId = NanoId(id)
+            val orderItem = remember(nanoId) {
+                deliveryViewModel.state.orderItems.first { it.id == nanoId }
+            }
+            OrderItemDetailScreen(
+                orderItem = orderItem,
+                mainViewModel = mainViewModel,
+            )
+        }
     }
 }
 
-@Preview(name = "Light Mode")
-@Preview(
-    name = "Dark Mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun DeliveryScreenPreview() {
-    RestaurantAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            DeliveryScreen()
-        }
-    }
+fun DeliveryMessageKind.message(context: Context): String = when (this) {
+    DeliveryMessageKind.OrderItemReady -> context.getString(R.string.order_deleted)
+    DeliveryMessageKind.OrderItemDelivered -> context.getString(R.string.order_created)
+    else -> context.getString(R.string.unknown_error)
 }

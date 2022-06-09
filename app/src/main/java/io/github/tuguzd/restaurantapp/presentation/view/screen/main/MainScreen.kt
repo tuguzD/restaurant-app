@@ -17,7 +17,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserType
 import io.github.tuguzd.restaurantapp.presentation.R
+import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations
 import io.github.tuguzd.restaurantapp.presentation.view.navigation.main.MainScreenDestinations.*
 import io.github.tuguzd.restaurantapp.presentation.view.screen.main.account.AccountScreen
 import io.github.tuguzd.restaurantapp.presentation.view.screen.main.delivery.DeliveryScreen
@@ -27,6 +29,7 @@ import io.github.tuguzd.restaurantapp.presentation.view.util.ToastDuration
 import io.github.tuguzd.restaurantapp.presentation.view.util.showToast
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.MainViewModel
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.roleMatches
 import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.navigationVisible
 
 /**
@@ -55,38 +58,44 @@ fun MainScreen(
         }
         mainViewModel.updateCurrentDestination(currentDestination)
     }
-
-    val orderNavController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val destinations = mutableListOf<MainScreenDestinations>(Account).apply {
+        if (accountViewModel.state.roleMatches(UserType.Waiter, UserType.LineCook)) {
+            add(Delivery)
+            add(Orders)
+        }
+        reverse()
+    }
 
     Scaffold(
         topBar = {
-            MainScreenTopAppBar(
-                mainViewModel = mainViewModel,
-                orderNavController = orderNavController,
-            )
+            MainScreenTopAppBar(mainViewModel = mainViewModel)
         },
         bottomBar = {
             DestinationsNavigationBar(
+                destinations = destinations,
                 navController = navController,
-                destinations = listOf(Orders, Delivery, Account),
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = Orders.route,
+            startDestination = destinations.first().route,
             modifier = Modifier.padding(padding),
         ) {
             composable(Orders.route) {
                 OrderScreen(
-                    mainViewModel, navController = orderNavController,
+                    mainViewModel = mainViewModel,
                     snackbarHostState = snackbarHostState,
                 )
             }
             composable(Delivery.route) {
-                DeliveryScreen(mainViewModel)
+                DeliveryScreen(
+                    mainViewModel = mainViewModel,
+                    snackbarHostState = snackbarHostState,
+                )
             }
             composable(Account.route) account@{
                 val user = accountViewModel.state.currentUser ?: return@account
@@ -107,10 +116,8 @@ fun MainScreen(
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun MainScreenTopAppBar(
-    mainViewModel: MainViewModel,
-    orderNavController: NavHostController,
-) {
+private fun MainScreenTopAppBar(mainViewModel: MainViewModel) {
+
     val tonalElevation by animateDpAsState(if (mainViewModel.state.isFilled) 4.dp else 0.dp)
 
     Surface(tonalElevation = tonalElevation) {

@@ -3,7 +3,6 @@ package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 import android.content.Context
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -35,94 +34,71 @@ fun OrderScreen(
             currentRoute == OrderList.route -> MainScreenDestinations.Orders
             currentRoute == OrderCreate.route -> OrderCreate
             OrderDetail.route in currentRoute -> OrderDetail
+            OrderItemDetail.route in currentRoute -> OrderItemDetail
             else -> return@LaunchedEffect
         }
         mainViewModel.updateCurrentDestination(currentDestination)
         mainViewModel.updateOnNavigateUpAction(navController::navigateUp)
     }
 
-    val appName = stringResource(R.string.app_name)
-
     NavHost(navController = navController, startDestination = OrderList.route) {
         composable(OrderList.route) {
             OrderListScreen(
+                navController = navController,
                 mainViewModel = mainViewModel,
                 orderViewModel = orderViewModel,
                 snackbarHostState = snackbarHostState,
+            )
+        }
+        composable(OrderCreate.route) {
+            OrderCreateScreen(
                 navController = navController,
+                mainViewModel = mainViewModel,
+                orderViewModel = orderViewModel,
             )
         }
         composable(
-            route = "${OrderDetail.route}/{orderId}",
+            route = "${OrderDetail.route}/{id}",
             arguments = listOf(
-                navArgument(name = "orderId") { type = NavType.StringType },
+                navArgument(name = "id") { type = NavType.StringType },
             ),
         ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("orderId") ?: return@composable
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
             val nanoId = NanoId(id)
             val order = remember(nanoId) {
                 orderViewModel.state.orders.first { it.id == nanoId }
             }
-
-            val title = stringResource(R.string.order_detail)
-            SideEffect {
-                mainViewModel.updateTitle(title)
-                mainViewModel.updateFilled(isFilled = false)
+            OrderDetailScreen(
+                order = order,
+                onRefresh = { orderViewModel.updateOrderItems(order) },
+                orderItems = orderViewModel.state.orderItems,
+                isRefreshing = orderViewModel.state.isUpdating,
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
+        }
+        composable(
+            route = "${OrderItemDetail.route}/{id}",
+            arguments = listOf(
+                navArgument(name = "id") { type = NavType.StringType },
+            ),
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
+            val nanoId = NanoId(id)
+            val orderItem = remember(nanoId) {
+                orderViewModel.state.orderItems.first { it.id == nanoId }
             }
-            OrderDetailScreen(order)
+            OrderItemDetailScreen(
+                orderItem = orderItem,
+                mainViewModel = mainViewModel,
+            )
         }
     }
-
-//    NavHost(navController = navController, startDestination = OrderList.route) {
-//        composable(OrderList.route) {
-//            SideEffect { onTitleChanged(appName) }
-//
-//            Scaffold(
-//                floatingActionButton = {
-//                    ExtendedFloatingActionButton(
-//                        text = { Text(stringResource(R.string.add_order)) },
-//                        icon = { Icon(imageVector = Icons.Rounded.Add, contentDescription = null) },
-//                        onClick = { navController.navigate(OrderCreate.route) },
-//                    )
-//                }
-//            ) { padding ->
-//                OrderList(
-//                    modifier = Modifier.padding(padding),
-//                    orders = orders,
-//                    onOrderClick = {
-//                        navController.navigate("${OrderDetail.route}/${it.id}")
-//                    },
-//                )
-//            }
-//        }
-//        dialog(
-//            route = OrderCreate.route,
-//            dialogProperties = DialogProperties(usePlatformDefaultWidth = false),
-//        ) {
-//            val onOrderCreateMessage = stringResource(R.string.order_created)
-//            val dismissText = stringResource(R.string.dismiss)
-//
-//            OrderCreateDialog(
-//                modifier = Modifier.fillMaxSize(),
-//                onOrderCreate = { order ->
-//                    scope.launch {
-//                        orderViewModel.createOrder(order)
-//                        withContext(Dispatchers.Main) {
-//                            navController.popBackStack()
-//                        }
-//                        snackbarHostState.showSnackbar(
-//                            message = onOrderCreateMessage,
-//                            actionLabel = dismissText,
-//                        )
-//                    }
-//                },
-//                onNavigateUp = { navController.navigateUp() },
-//            )
-//        }
 }
 
 fun OrderMessageKind.message(context: Context): String = when (this) {
     OrderMessageKind.OrderAdded -> context.getString(R.string.order_created)
     OrderMessageKind.OrderDeleted -> context.getString(R.string.order_deleted)
+    OrderMessageKind.OrderPurchased -> context.getString(R.string.order_purchased)
     else -> context.getString(R.string.unknown_error)
 }

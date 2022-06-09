@@ -1,6 +1,5 @@
 package io.github.tuguzd.restaurantapp.presentation.view.screen.main.order
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,22 +16,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import io.github.tuguzd.restaurantapp.domain.model.client_work.order.OrderData
 import io.github.tuguzd.restaurantapp.presentation.R
-import io.github.tuguzd.restaurantapp.presentation.view.ui.theme.RestaurantAppTheme
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.MainViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.account.AccountViewModel
+import io.github.tuguzd.restaurantapp.presentation.viewmodel.main.order.OrderViewModel
 
 /**
  * Application dialog for manual [component][OrderData] creation.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrderCreateDialog(
-    modifier: Modifier = Modifier,
-    onOrderCreate: (OrderData) -> Unit,
-    onNavigateUp: () -> Unit,
+fun OrderCreateScreen(
+    mainViewModel: MainViewModel,
+    orderViewModel: OrderViewModel,
+    navController: NavHostController,
+    accountViewModel: AccountViewModel = hiltViewModel(),
 ) {
+    val title = stringResource(R.string.add_order)
+    SideEffect {
+        mainViewModel.updateTitle(title)
+    }
+
     // TODO: Add `serviceItemPoint` dropdown
     var description by rememberSaveable { mutableStateOf("") }
     var clientCount by rememberSaveable { mutableStateOf("") }
@@ -41,31 +48,17 @@ fun OrderCreateDialog(
     val focusManager = LocalFocusManager.current
 
     Scaffold(
-        modifier = modifier.clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = null,
+        modifier = Modifier.fillMaxSize().clickable(
             onClick = focusManager::clearFocus,
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() },
         ),
-        topBar = {
-            SmallTopAppBar(
-                title = { Text(text = stringResource(R.string.add_order)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
-                    }
-                },
-            )
-        },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp),
+            modifier = Modifier.padding(padding).padding(16.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
+                modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())
             ) {
                 OutlinedTextField(
                     value = clientCount,
@@ -90,15 +83,15 @@ fun OrderCreateDialog(
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = {
-//                    val order = OrderData(
-//                        id = randomNanoId(),
-//                        user = null,
-//                        serviceItemPoint = null,
-//                        description = description,
-//                        clientCount = clientCount.toInt(),
-//                        datetimeCreate = Date().toString(),
-//                    )
-//                    onOrderCreate(order)
+                    orderViewModel.createOrder(
+                        OrderData(
+                            creator = requireNotNull(accountViewModel.state.currentUser),
+                            clientCount = clientCount.toInt(),
+                            description = description,
+                        )
+                    )
+//                    orderViewModel.updateOrders()
+                    navController.navigateUp()
                 },
                 enabled = kotlin.run {
                     clientCount.toIntOrNull() ?: return@run false
@@ -114,21 +107,5 @@ fun OrderCreateDialog(
                 Text(text = stringResource(R.string.add_order))
             }
         }
-    }
-}
-
-@Preview(name = "Light Mode")
-@Preview(
-    name = "Dark Mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun AddComponentDialogPreview() {
-    RestaurantAppTheme {
-        OrderCreateDialog(
-            modifier = Modifier.fillMaxSize(),
-            onOrderCreate = {},
-            onNavigateUp = {},
-        )
     }
 }

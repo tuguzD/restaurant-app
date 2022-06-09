@@ -19,7 +19,6 @@ import coil.compose.SubcomposeAsyncImage
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.material.placeholder
-import io.github.tuguzd.restaurantapp.domain.model.access_control.user.User
 import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserData
 import io.github.tuguzd.restaurantapp.domain.model.access_control.user.UserType
 import io.github.tuguzd.restaurantapp.domain.util.randomNanoId
@@ -33,7 +32,7 @@ import java.util.*
  */
 @Composable
 fun AccountScreen(
-    user: User,
+    user: UserData,
     mainViewModel: MainViewModel = hiltViewModel(),
     onSignOut: () -> Unit,
 ) {

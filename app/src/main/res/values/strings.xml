@@ -22,6 +22,27 @@
     <string name="order_detail">Order details</string>
     <string name="order_created">New order created successfully</string>
     <string name="order_deleted">Order was deleted right now</string>
+    <string name="order_purchased">Order set as purchased</string>
+
+    <string name="not_ready">Item isn\'t ready</string>
+    <string name="mark_ready">Mark ready</string>
+    <string name="marked_ready">Marked as ready</string>
+
+    <string name="mark_delivered">Mark delivered</string>
+    <string name="marked_delivered">Was delivered</string>
+
+    <string name="add_order_item">New item</string>
+    <string name="order_item_detail">Order item details</string>
+    <string name="order_item_ready">Order item set as ready to deliver</string>
+    <string name="order_item_delivered">Order item set as delivered</string>
+
+    <string name="plus_order_item_count">Enlarge order item count</string>
+    <string name="minus_order_item_count">Reduce order item count</string>
+
+    <string name="menu_item_name">Menu item name</string>
+    <string name="menu_item_type">Type of menu item</string>
+    <string name="order_item_desc">Description of order item</string>
+    <string name="order_item_count">Order item count</string>
 
     <string name="user_avatar">User avatar</string>
     <string name="sign_in">Sign in</string>
